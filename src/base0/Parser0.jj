@@ -1,5 +1,7 @@
 PARSER_BEGIN(Parser)
 
+package base0;
+
 /** ID lister. */
 public class Parser {
 
@@ -9,7 +11,7 @@ public class Parser {
 
     while (true) {
         try {
-            System.out.println(parser.Start());
+            System.out.println(parser.Start().eval());
         }
 		catch (Exception e) {
             System.out.println ("Syntax Error!");
@@ -74,10 +76,7 @@ ASTNode Term() :
 {Token op;
   ASTNode t1, t2;}
 {
-     t1 = Fact() ( ( op=<TIMES> | op=<DIV> ) t2 = Term() 
- 		 {
-                 } 
-		)?
+     t1 = Fact() ( ( op=<TIMES> | op=<DIV> ) t2 = Term() )?
      { return t1; } 
 }
 
