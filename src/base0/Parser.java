@@ -12,9 +12,9 @@ public class Parser implements ParserConstants {
 
     while (true) {
         try {
-            System.out.println(parser.Start());
+            System.out.println(parser.Start().eval());
         }
-                catch (Exception e) {
+        catch (Exception e) {
             System.out.println ("Syntax Error!");
             parser.ReInit(System.in);
         }
