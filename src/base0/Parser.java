@@ -11,10 +11,11 @@ public class Parser implements ParserConstants {
 
     while (true) {
         try {
+                        System.out.print("> ");
             System.out.println(parser.Start().eval());
         }
                 catch (Exception e) {
-            System.out.println ("Syntax Error!");
+            System.out.println("Syntax Error!");
             parser.ReInit(System.in);
         }
     }
@@ -86,6 +87,9 @@ if (op.kind == PLUS)
         throw new ParseException();
       }
       t2 = Term();
+if (op.kind == TIMES)
+                            t1 = new ASTTimes(t1,t2);
+                      else  t1 = new ASTDiv(t1,t2);
       break;
       }
     default:
