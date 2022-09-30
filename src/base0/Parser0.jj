@@ -1,6 +1,5 @@
 PARSER_BEGIN(Parser)
 
-
 /** ID lister. */
 public class Parser {
 
@@ -18,8 +17,6 @@ public class Parser {
         }
     }
   }
-
-}
 
 }
 
