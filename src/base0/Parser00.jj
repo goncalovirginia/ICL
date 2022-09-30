@@ -1,5 +1,6 @@
 PARSER_BEGIN(Parser)
 
+package base0;
 
 /** ID lister. */
 public class Parser {
