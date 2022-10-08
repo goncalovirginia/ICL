@@ -82,7 +82,7 @@ ASTNode Term() :
                             t1 = new ASTTimes(t1,t2);
                       else  t1 = new ASTDiv(t1,t2);
 				}
-     			)?
+     			) ?
      { return t1; } 
 }
 
@@ -94,7 +94,7 @@ ASTNode Fact() :
    (
    n=<Num> { t = new ASTNum(Integer.parseInt(n.image)); }
    | <LPAR> t=Exp() <RPAR>
-   | n=<MINUS> {t = new ASTUMinus(Exp()); }
+   | n=<MINUS> {t = new ASTUMinus(Fact()); }
    )
    { return t; }
 }
