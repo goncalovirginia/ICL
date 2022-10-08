@@ -114,6 +114,11 @@ t = new ASTNum(Integer.parseInt(n.image));
       jj_consume_token(RPAR);
       break;
       }
+    case MINUS:{
+      n = jj_consume_token(MINUS);
+t = new ASTUMinus(Exp());
+      break;
+      }
     default:
       jj_la1[4] = jj_gen;
       jj_consume_token(-1);
@@ -139,7 +144,7 @@ t = new ASTNum(Integer.parseInt(n.image));
 	   jj_la1_init_0();
 	}
 	private static void jj_la1_init_0() {
-	   jj_la1_0 = new int[] {0xc0,0xc0,0x300,0x300,0x420,};
+	   jj_la1_0 = new int[] {0xc0,0xc0,0x300,0x300,0x4a0,};
 	}
 
   /** Constructor with InputStream. */
