@@ -9,8 +9,16 @@ public class ASTPlus implements ASTNode {
 		rhs = r;
 	}
 	
+	@Override
 	public int eval() {
 		return lhs.eval() + rhs.eval();
+	}
+	
+	@Override
+	public void compile(CodeBlock c) {
+		lhs.compile(c);
+		rhs.compile(c);
+		c.emit("iadd");
 	}
 	
 }

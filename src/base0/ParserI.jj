@@ -1,29 +1,13 @@
-PARSER_BEGIN(Parser)
+PARSER_BEGIN(ParserI)
 
 package base0;
 
 /** ID lister. */
-public class Parser {
-
-  /** Main entry point. */
-  public static void main(String[] args) {
-    Parser parser = new Parser(System.in);
-
-    while (true) {
-        try {
-			System.out.print("> ");
-            System.out.println(parser.Start().eval());
-        }
-		catch (Exception e) {
-            System.out.println("Syntax Error!");
-            parser.ReInit(System.in);
-        }
-    }
-  }
+public class ParserI {
 
 }
 
-PARSER_END(Parser)
+PARSER_END(ParserI)
 
 SKIP :
 {
@@ -85,7 +69,6 @@ ASTNode Term() :
      			) ?
      { return t1; } 
 }
-
 
 ASTNode Fact() :
 { Token n; 

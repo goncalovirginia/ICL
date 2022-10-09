@@ -9,8 +9,16 @@ public class ASTTimes implements ASTNode {
 		this.rhs = rhs;
 	}
 	
+	@Override
 	public int eval() {
 		return lhs.eval() * rhs.eval();
+	}
+	
+	@Override
+	public void compile(CodeBlock c) {
+		lhs.compile(c);
+		rhs.compile(c);
+		c.emit("imult");
 	}
 	
 }
