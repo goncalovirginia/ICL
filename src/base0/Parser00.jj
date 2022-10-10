@@ -1,13 +1,13 @@
-PARSER_BEGIN(ParserC)
+PARSER_BEGIN(Parser00)
 
 package base0;
 
 /** ID lister. */
-public class ParserC {
+public class Parser00 {
 
 }
 
-PARSER_END(ParserC)
+PARSER_END(Parser00)
 
 SKIP :
 {

@@ -1,32 +1,29 @@
 import base0.ASTNode;
 import base0.CodeBlock;
-import base0.ParserI;
+import base0.Parser0;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.PrintStream;
-import java.util.Scanner;
+import java.io.*;
 
 public class ICLCompiler {
 	
-	public static void main(String[] args) {
-		Scanner in = new Scanner(System.in);
-		ParserI parser = new ParserI(System.in);
+	public static void main(String[] args) throws FileNotFoundException {
+		if (args.length < 2) {
+			System.out.println("java <compiler> <source> <target>");
+		}
+
+		new Parser0(new FileInputStream(args[0]));
+		CodeBlock codeBlock = new CodeBlock();
 		
 		while (true) {
 			try {
-				System.out.print("> ");
-				String[] code = (new BufferedReader(new FileReader(in.nextLine()))).lines().toArray(String[]::new);
-				CodeBlock codeBlock = new CodeBlock(code);
-				ASTNode ast = ParserI.Start();
+				ASTNode ast = Parser0.Start();
+				if (ast == null) return;
 				ast.compile(codeBlock);
-				System.out.print("> ");
-				codeBlock.dump(new PrintStream(in.nextLine()));
+				codeBlock.dump(new PrintStream(args[1]));
 			}
 			catch (Exception e) {
-				System.out.println("Syntax Error!");
 				e.printStackTrace();
-				ParserI.ReInit(System.in);
+				Parser0.ReInit(System.in);
 			}
 		}
 	}

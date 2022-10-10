@@ -2,23 +2,25 @@ package base0;
 
 import java.io.PrintStream;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 public class CodeBlock {
 	
-	private final String[] code;
-	private int pc;
+	private final List<String> code;
 	
-	public CodeBlock(String[] code) {
-		this.code = code;
-		this.pc = 0;
+	public CodeBlock() {
+		this.code = new LinkedList<>();
 	}
 	
 	public void emit(String opcode) {
-		code[pc++] = opcode;
+		code.add(opcode);
 	}
 	
 	public void dump(PrintStream f) {
-		f.println(Arrays.toString(code));
+		for (String line : code) {
+			f.println(line);
+		}
 	}
 	
 }

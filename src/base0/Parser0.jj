@@ -1,13 +1,13 @@
-PARSER_BEGIN(ParserI)
+PARSER_BEGIN(Parser0)
 
 package base0;
 
 /** ID lister. */
-public class ParserI {
+public class Parser0 {
 
 }
 
-PARSER_END(ParserI)
+PARSER_END(Parser0)
 
 SKIP :
 {
@@ -38,9 +38,12 @@ TOKEN :
 }
 
 ASTNode Start():
-{ ASTNode t; }
+{ ASTNode t = null; }
 {
+	(
    t = Exp() <EL>
+   | <EOF>
+   )
    { return t; }
 }
 
