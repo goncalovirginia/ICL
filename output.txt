@@ -1,7 +1,0 @@
-sipush 4
-sipush 5
-iadd
-sipush 8
-sipush 2
-imult
-imult

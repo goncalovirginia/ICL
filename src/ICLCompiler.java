@@ -20,10 +20,10 @@ public class ICLCompiler {
 				if (ast == null) return;
 				ast.compile(codeBlock);
 				codeBlock.dump(new PrintStream(args[1]));
+				System.out.println("Compiled successfully.");
 			}
 			catch (Exception e) {
 				e.printStackTrace();
-				Parser0.ReInit(System.in);
 			}
 		}
 	}
