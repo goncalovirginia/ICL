@@ -20,19 +20,7 @@
 
 	getstatic java/lang/System/out Ljava/io/PrintStream;
 
-	; place bytecodes here
-
-	; START (4+5)*(8*2) =
-		      
-	sipush 4
-	sipush 5
-	iadd
-	sipush 8
-	sipush 2
-	imul
-	imul
-
-	; END
+	; START
 
 	; convert to String;
 	invokestatic java/lang/String/valueOf(I)Ljava/lang/String;
@@ -43,9 +31,3 @@
 	return
 
 .end method
-
-
-
-
-
-
