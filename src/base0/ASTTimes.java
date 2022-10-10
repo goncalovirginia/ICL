@@ -18,7 +18,7 @@ public class ASTTimes implements ASTNode {
 	public void compile(CodeBlock c) {
 		lhs.compile(c);
 		rhs.compile(c);
-		c.emit("imult");
+		c.emit("imul");
 	}
 	
 }

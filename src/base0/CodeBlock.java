@@ -19,7 +19,7 @@ public class CodeBlock {
 	
 	public void dump(PrintStream f) {
 		for (String line : code) {
-			f.println(line);
+			f.println("\t" + line);
 		}
 	}
 	

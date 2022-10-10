@@ -16,7 +16,7 @@ public class ASTUMinus implements ASTNode {
 	@Override
 	public void compile(CodeBlock c) {
 		val.compile(c);
-		c.emit("iuminus");
+		c.emit("ineg");
 	}
 	
 }
