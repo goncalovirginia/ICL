@@ -8,13 +8,13 @@ public class ICLInterpreter {
 		while (true) {
 			try {
 				System.out.print("> ");
-				System.out.println(parser.Start().eval());
+				System.out.println(ParserI.Start().eval());
 			}
 			catch (Exception e) {
 				System.out.println("Syntax Error!");
-				parser.ReInit(System.in);
+				ParserI.ReInit(System.in);
 			}
 		}
 	}
-
+	
 }

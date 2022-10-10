@@ -1,46 +1,46 @@
 .class public Header
 .super java/lang/Object
 
-;
 ; standard initializer
 .method public <init>()V
-   aload_0
-   invokenonvirtual java/lang/Object/<init>()V
-   return
+	aload_0
+	invokenonvirtual java/lang/Object/<init>()V
+	return
 .end method
 
 .method public static main([Ljava/lang/String;)V
 
-       ; set limits used by this method
-       .limit locals  1 
-       .limit stack 256
+	; set limits used by this method
+	.limit locals  1
+	.limit stack 256
 
-       ; setup local variables:
+	; setup local variables:
 
-       ;    1 - the PrintStream object held in java.lang.System.out
+	; 1 - the PrintStream object held in java.lang.System.out
 
-       getstatic java/lang/System/out Ljava/io/PrintStream;
+	getstatic java/lang/System/out Ljava/io/PrintStream;
 
-       ; place bytecodes here
+	; place bytecodes here
 
-       ; START    (4+5)*(8*2) = 
+	; START (4+5)*(8*2) =
 		      
-					sipush 4
-					sipush 5
-					iadd
-					sipush 8
-					sipush 2
-				  	imul
-					imul
-       ; END
+	sipush 4
+	sipush 5
+	iadd
+	sipush 8
+	sipush 2
+	imul
+	imul
 
-       ; convert to String;
-       invokestatic java/lang/String/valueOf(I)Ljava/lang/String;
+	; END
 
-       ; call println 
-       invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+	; convert to String;
+	invokestatic java/lang/String/valueOf(I)Ljava/lang/String;
 
-       return
+	; call println
+	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+
+	return
 
 .end method
 
