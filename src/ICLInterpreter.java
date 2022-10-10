@@ -11,7 +11,7 @@ public class ICLInterpreter {
 				System.out.println(Parser0.Start().eval());
 			}
 			catch (Exception e) {
-				System.out.println("Syntax Error!");
+				e.printStackTrace();
 				Parser0.ReInit(System.in);
 			}
 		}
