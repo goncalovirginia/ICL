@@ -1,26 +1,23 @@
 package base0;
 
 import java.io.PrintStream;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 public class CodeBlock {
 	
-	private final List<String> code;
+	private final StringBuilder code;
 	
 	public CodeBlock() {
-		this.code = new LinkedList<>();
+		code = new StringBuilder();
 	}
 	
 	public void emit(String opcode) {
-		code.add(opcode);
+		code.append(String.format("%s\n", opcode));
 	}
 	
-	public void dump(PrintStream f) {
-		for (String line : code) {
-			f.println("\t" + line);
-		}
+	public String dump() {
+		return code.toString();
 	}
 	
 }

@@ -1,9 +1,0 @@
-	sipush 3
-	ineg
-	sipush 3
-	sipush 3
-	idiv
-	imul
-	sipush 1
-	iadd
-	ineg
