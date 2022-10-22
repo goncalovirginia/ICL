@@ -28,7 +28,7 @@ public class Parser0 implements Parser0Constants {
 }
 
   static final public ASTNode Exp() throws ParseException {Token op;
-  ASTNode t1, t2;
+        ASTNode t1, t2;
     t1 = Term();
     label_1:
     while (true) {
@@ -58,15 +58,16 @@ public class Parser0 implements Parser0Constants {
       }
       t2 = Term();
 if (op.kind == PLUS)
-                         t1 = new ASTPlus(t1,t2);
-                   else  t1 = new ASTSub(t1,t2);
+                        t1 = new ASTPlus(t1,t2);
+                else
+                        t1 = new ASTSub(t1,t2);
     }
 {if ("" != null) return t1;}
     throw new Error("Missing return statement in function");
 }
 
   static final public ASTNode Term() throws ParseException {Token op;
-  ASTNode t1, t2;
+        ASTNode t1, t2;
     t1 = Fact();
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case TIMES:
@@ -87,8 +88,9 @@ if (op.kind == PLUS)
       }
       t2 = Term();
 if (op.kind == TIMES)
-                            t1 = new ASTTimes(t1,t2);
-                      else  t1 = new ASTDiv(t1,t2);
+                        t1 = new ASTTimes(t1,t2);
+                else
+                        t1 = new ASTDiv(t1,t2);
       break;
       }
     default:
@@ -100,7 +102,7 @@ if (op.kind == TIMES)
 }
 
   static final public ASTNode Fact() throws ParseException {Token n;
-  ASTNode t;
+        ASTNode t;
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case Num:{
       n = jj_consume_token(Num);
@@ -114,7 +116,7 @@ t = new ASTNum(Integer.parseInt(n.image));
       break;
       }
     case MINUS:{
-      n = jj_consume_token(MINUS);
+      jj_consume_token(MINUS);
 t = new ASTNeg(Fact());
       break;
       }
