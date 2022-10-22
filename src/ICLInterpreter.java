@@ -1,4 +1,5 @@
-import base0.Parser0;
+import ast.Environment;
+import parser.Parser0;
 
 public class ICLInterpreter {
 	
@@ -8,7 +9,7 @@ public class ICLInterpreter {
 		while (true) {
 			try {
 				System.out.print("> ");
-				System.out.println(Parser0.Start().eval());
+				System.out.println(Parser0.Start().eval(new Environment()));
 			}
 			catch (Exception e) {
 				e.printStackTrace();

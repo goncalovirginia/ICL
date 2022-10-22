@@ -1,4 +1,4 @@
-package base0;
+package ast;
 
 public class ASTNum implements ASTNode {
 	
@@ -9,7 +9,7 @@ public class ASTNum implements ASTNode {
 	}
 	
 	@Override
-	public int eval() {
+	public int eval(Environment e) {
 		return val;
 	}
 	

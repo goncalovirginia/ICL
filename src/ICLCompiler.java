@@ -1,8 +1,11 @@
-import base0.ASTNode;
-import base0.CodeBlock;
-import base0.Parser0;
+import ast.ASTNode;
+import ast.CodeBlock;
+import parser.Parser0;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintStream;
 
 public class ICLCompiler {
 	
@@ -10,7 +13,7 @@ public class ICLCompiler {
 		if (args.length < 2) {
 			System.out.println("java <compiler> <source> <target>");
 		}
-
+		
 		new Parser0(new FileInputStream(args[0]));
 		CodeBlock codeBlock = new CodeBlock();
 		

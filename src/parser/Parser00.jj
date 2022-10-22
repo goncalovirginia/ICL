@@ -1,6 +1,6 @@
 PARSER_BEGIN(Parser00)
 
-package base0;
+package parser;
 
 /** ID lister. */
 public class Parser00 {
