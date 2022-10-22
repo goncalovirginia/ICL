@@ -11,97 +11,107 @@ PARSER_END(Parser0)
 
 SKIP :
 {
-  " "
-| "\t"
-| "\r"
+	" "
+	|
+	"\t"
+	|
+	"\r"
 }
 
 TOKEN :
 {
-  < Id: ["a"-"z","A"-"Z"] ( ["a"-"z","A"-"Z","0"-"9"] )* >
-  |
-  < Num: (["0"-"9"]) + >
-  |
-  < PLUS : "+" >
-  |
-  < MINUS : "-">
-  |
-  < TIMES : "*">
-  |
-  < DIV : "/">
-  |
-  < LPAR : "(" >
-  |
-  < RPAR : ")" >
-  |
-  < EL: "\n" >
+	< Id: ["a"-"z","A"-"Z"] ( ["a"-"z","A"-"Z","0"-"9"] )* >
+	|
+	< Num: (["0"-"9"]) + >
+	|
+	< PLUS : "+" >
+	|
+	< MINUS : "-">
+	|
+	< TIMES : "*">
+	|
+	< DIV : "/">
+	|
+	< LPAR : "(" >
+	|
+	< RPAR : ")" >
+	|
+	< EL: "\n" >
 }
 
-ASTNode Start():
-{ ASTNode t = null; }
+ASTNode Start() :
+{
+	ASTNode t = null;
+}
 {
 	(
-   t = Exp() <EL>
-   | <EOF>
-   )
-   { return t; }
+	t = Exp() <EL>
+	|
+	<EOF>
+	)
+	{
+		return t;
+	}
 }
 
 ASTNode Exp() :
-{ Token op;
-  ASTNode t1, t2; }
 {
-     t1=Term() ( ( op=<PLUS> | op=<MINUS> ) t2=Term() 
-                 { if (op.kind == PLUS) 
-                         t1 = new ASTPlus(t1,t2);
-                   else  t1 = new ASTSub(t1,t2);
-                 } 
-               ) *
-     { return t1; } 
+	Token op;
+	ASTNode t1, t2;
+}
+{
+	t1=Term() ( ( op=<PLUS> | op=<MINUS> ) t2=Term()
+	{
+		if (op.kind == PLUS)
+			t1 = new ASTPlus(t1,t2);
+		else
+			t1 = new ASTSub(t1,t2);
+	}
+    ) *
+    {
+		return t1;
+	}
 }
 
 ASTNode Term() :
-{Token op;
-  ASTNode t1, t2;}
 {
-     t1 = Fact() ( ( op=<TIMES> | op=<DIV> ) t2 = Term()
-     				{ if (op.kind == TIMES)
-                            t1 = new ASTTimes(t1,t2);
-                      else  t1 = new ASTDiv(t1,t2);
-				}
-     			) ?
-     { return t1; } 
+	Token op;
+	ASTNode t1, t2;
+}
+{
+	t1 = Fact() ( ( op=<TIMES> | op=<DIV> ) t2 = Term()
+    {
+        if (op.kind == TIMES)
+			t1 = new ASTTimes(t1,t2);
+		else
+			t1 = new ASTDiv(t1,t2);
+	}
+	) ?
+	{
+		return t1;
+	}
 }
 
 ASTNode Fact() :
-{ Token n; 
-  ASTNode t;}
 {
-   (
-   n=<Num> { t = new ASTNum(Integer.parseInt(n.image)); }
-   | <LPAR> t=Exp() <RPAR>
-   | n=<MINUS> {t = new ASTUMinus(Fact()); }
-   )
-   { return t; }
+	Token n;
+	ASTNode t;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+{
+	(
+	n=<Num>
+	{
+		t = new ASTNum(Integer.parseInt(n.image));
+    }
+	|
+	<LPAR> t=Exp() <RPAR>
+	|
+	<MINUS>
+	{
+		t = new ASTNeg(Fact());
+	}
+	)
+	{
+		return t;
+	}
+}

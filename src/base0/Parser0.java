@@ -115,7 +115,7 @@ t = new ASTNum(Integer.parseInt(n.image));
       }
     case MINUS:{
       n = jj_consume_token(MINUS);
-t = new ASTUMinus(Fact());
+t = new ASTNeg(Fact());
       break;
       }
     default:

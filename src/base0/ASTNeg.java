@@ -1,10 +1,10 @@
 package base0;
 
-public class ASTUMinus implements ASTNode {
+public class ASTNeg implements ASTNode {
 	
 	ASTNode val;
 	
-	public ASTUMinus(ASTNode val) {
+	public ASTNeg(ASTNode val) {
 		this.val = val;
 	}
 	

@@ -1,9 +1,5 @@
 package base0;
 
-import java.io.PrintStream;
-import java.util.LinkedList;
-import java.util.List;
-
 public class CodeBlock {
 	
 	private final StringBuilder code;
