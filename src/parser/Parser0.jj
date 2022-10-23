@@ -19,6 +19,8 @@ SKIP :
 	"\t"
 	|
 	"\r"
+	|
+	"\n"
 }
 
 TOKEN :
@@ -45,9 +47,9 @@ TOKEN :
 	|
 	< RPAR : ")" >
 	|
-	< EL : "\n" >
-	|
 	< EQ : "=" >
+	|
+	< SEMI : ";" >
 }
 
 ASTNode Start() :
@@ -56,7 +58,7 @@ ASTNode Start() :
 }
 {
 	(
-	t = Exp() <EL>
+	t = Exp() <SEMI><SEMI>
 	|
 	<EOF>
 	)
@@ -140,10 +142,14 @@ ASTNode Def() :
 	ASTNode val, body;
 	Map<String, ASTNode> variables = new HashMap<>();
 }
-{
-	id = <ID> <EQ> val = Exp() <IN> body = Exp()
+{	(
+	id = <ID> <EQ> val = Exp() <SEMI>
 	{
 		variables.put(id.image, val);
+	}
+	) +
+	<IN> body = Exp()
+	{
 		return new ASTDef(variables, body);
 	}
 }

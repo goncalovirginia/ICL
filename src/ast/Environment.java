@@ -31,7 +31,7 @@ public class Environment {
 	
 	public void assoc(String id, int val) throws IDDeclaredTwiceException {
 		if (assocs.put(id, val) != null) {
-			throw new IDDeclaredTwiceException();
+			throw new IDDeclaredTwiceException(id);
 		}
 	}
 	
@@ -41,7 +41,7 @@ public class Environment {
 			return value != null ? value : parent.find(id);
 		}
 		catch (Exception e) {
-			throw new UndeclaredIdentifierException();
+			throw new UndeclaredIdentifierException(id);
 		}
 	}
 	
