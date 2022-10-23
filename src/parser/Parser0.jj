@@ -2,13 +2,9 @@ PARSER_BEGIN(Parser0)
 
 package parser;
 
-import ast.ASTDiv;
-import ast.ASTNeg;
-import ast.ASTNode;
-import ast.ASTNum;
-import ast.ASTPlus;
-import ast.ASTSub;
-import ast.ASTTimes;
+import ast.*;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Parser0 {
 
@@ -27,6 +23,12 @@ SKIP :
 
 TOKEN :
 {
+	< DEF : "def" >
+	|
+	< IN : "in" >
+	|
+	< END : "end" >
+	|
 	< ID: ["a"-"z","A"-"Z"] ( ["a"-"z","A"-"Z","0"-"9"] )* >
 	|
 	< NUM: (["0"-"9"]) + >
@@ -44,6 +46,8 @@ TOKEN :
 	< RPAR : ")" >
 	|
 	< EL : "\n" >
+	|
+	< EQ : "=" >
 }
 
 ASTNode Start() :
@@ -88,11 +92,11 @@ ASTNode Term() :
 {
 	t1 = Fact() ( ( op = <TIMES> | op = <DIV> ) t2 = Term()
     {
-       if (op.kind == TIMES)
-		t1 = new ASTTimes(t1, t2);
-	else
-		t1 = new ASTDiv(t1, t2);
-}
+        if (op.kind == TIMES)
+			t1 = new ASTTimes(t1, t2);
+		else
+			t1 = new ASTDiv(t1, t2);
+	}
 	) ?
 	{
 		return t1;
@@ -106,7 +110,7 @@ ASTNode Fact() :
 }
 {
 	(
-	n = <NUM>
+    n = <NUM>
 	{
 		t = new ASTNum(Integer.parseInt(n.image));
     }
@@ -115,10 +119,31 @@ ASTNode Fact() :
 	|
 	<MINUS>
 	{
-	t = new ASTNeg(Fact());
+		t = new ASTNeg(Fact());
+	}
+	|
+	<DEF> t = Def() <END>
+	|
+	n = <ID>
+	{
+		t = new ASTId(n.image);
 	}
 	)
 	{
 		return t;
+	}
+}
+
+ASTNode Def() :
+{
+    Token id;
+	ASTNode val, body;
+	Map<String, ASTNode> variables = new HashMap<>();
+}
+{
+	id = <ID> <EQ> val = Exp() <IN> body = Exp()
+	{
+		variables.put(id.image, val);
+		return new ASTDef(variables, body);
 	}
 }

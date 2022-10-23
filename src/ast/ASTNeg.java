@@ -1,5 +1,6 @@
 package ast;
 
+import exceptions.IDDeclaredTwiceException;
 import exceptions.UndeclaredIdentifierException;
 
 public class ASTNeg implements ASTNode {
@@ -11,7 +12,7 @@ public class ASTNeg implements ASTNode {
 	}
 	
 	@Override
-	public int eval(Environment e) throws UndeclaredIdentifierException {
+	public int eval(Environment e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
 		return -val.eval(e);
 	}
 	
