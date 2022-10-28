@@ -147,7 +147,7 @@ ASTNode Scope() :
 	{
 		variables.put(id.image, val);
 	}
-	) +
+	) *
 	body = Exp()
 	{
 		return new ASTDef(variables, body);
