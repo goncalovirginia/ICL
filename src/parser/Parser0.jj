@@ -25,11 +25,11 @@ SKIP :
 
 TOKEN :
 {
-	< DEF : "def" >
+	< LCBRA : "{" >
 	|
-	< IN : "in" >
+	< RCBRA : "}" >
 	|
-	< END : "end" >
+	< LET : "let" >
 	|
 	< ID: ["a"-"z","A"-"Z"] ( ["a"-"z","A"-"Z","0"-"9"] )* >
 	|
@@ -124,7 +124,7 @@ ASTNode Fact() :
 		t = new ASTNeg(Fact());
 	}
 	|
-	<DEF> t = Def() <END>
+	<LCBRA> t = Scope() <RCBRA>
 	|
 	n = <ID>
 	{
@@ -136,19 +136,19 @@ ASTNode Fact() :
 	}
 }
 
-ASTNode Def() :
+ASTNode Scope() :
 {
     Token id;
 	ASTNode val, body;
 	Map<String, ASTNode> variables = new HashMap<>();
 }
 {	(
-	id = <ID> <EQ> val = Exp() <SEMI>
+	<LET> id = <ID> <EQ> val = Exp() <SEMI>
 	{
 		variables.put(id.image, val);
 	}
 	) +
-	<IN> body = Exp()
+	body = Exp()
 	{
 		return new ASTDef(variables, body);
 	}
