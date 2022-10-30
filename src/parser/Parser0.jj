@@ -151,6 +151,6 @@ ASTNode Scope() :
 	) *
 	body = Exp()
 	{
-	return new ASTScope(variables, body);
-}
+		return new ASTScope(variables, body);
+	}
 }
