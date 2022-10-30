@@ -142,7 +142,8 @@ ASTNode Scope() :
 	ASTNode val, body;
 	Map<String, ASTNode> variables = new HashMap<>();
 }
-{	(
+{
+	(
 	<LET> id = <ID> <EQ> val = Exp() <SEMI>
 	{
 		variables.put(id.image, val);
@@ -150,6 +151,6 @@ ASTNode Scope() :
 	) *
 	body = Exp()
 	{
-		return new ASTDef(variables, body);
-	}
+	return new ASTScope(variables, body);
+}
 }

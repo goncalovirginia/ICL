@@ -6,12 +6,12 @@ import exceptions.UndeclaredIdentifierException;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class ASTDef implements ASTNode {
+public class ASTScope implements ASTNode {
 	
 	private final Map<String, ASTNode> variables;
 	private final ASTNode body;
 	
-	public ASTDef(Map<String, ASTNode> variables, ASTNode body) {
+	public ASTScope(Map<String, ASTNode> variables, ASTNode body) {
 		this.variables = variables;
 		this.body = body;
 	}
@@ -24,9 +24,7 @@ public class ASTDef implements ASTNode {
 			eCurr.assoc(variable.getKey(), variable.getValue().eval(eCurr));
 		}
 		
-		int value = body.eval(eCurr);
-		eCurr.endScope();
-		return value;
+		return body.eval(eCurr);
 	}
 	
 	@Override
