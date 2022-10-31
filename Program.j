@@ -20,17 +20,9 @@
 
 	getstatic java/lang/System/out Ljava/io/PrintStream;
 
-sipush 3
-ineg
-sipush 9
-sipush 3
-idiv
-imul
 sipush 2
-sipush 4
-imul
-iadd
-ineg
+sipush 1
+isub
 
 	; convert to String;
 	invokestatic java/lang/String/valueOf(I)Ljava/lang/String;

@@ -3,24 +3,21 @@ package ast;
 import exceptions.IDDeclaredTwiceException;
 import exceptions.UndeclaredIdentifierException;
 
-public class ASTTimes implements ASTNode {
+public class ASTTimes extends ASTArithmetic {
 	
-	private final ASTNode lhs, rhs;
-	
-	public ASTTimes(ASTNode lhs, ASTNode rhs) {
-		this.lhs = lhs;
-		this.rhs = rhs;
+	public ASTTimes(ASTNode l, ASTNode r) {
+		super(l, r);
 	}
 	
 	@Override
 	public int eval(Environment e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
-		return lhs.eval(e) * rhs.eval(e);
+		return l.eval(e) * r.eval(e);
 	}
 	
 	@Override
 	public void compile(CodeBlock c) {
-		lhs.compile(c);
-		rhs.compile(c);
+		l.compile(c);
+		r.compile(c);
 		c.emit("imul");
 	}
 	

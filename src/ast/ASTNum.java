@@ -4,8 +4,8 @@ public class ASTNum implements ASTNode {
 	
 	private final int val;
 	
-	public ASTNum(int n) {
-		val = n;
+	public ASTNum(int val) {
+		this.val = val;
 	}
 	
 	@Override
