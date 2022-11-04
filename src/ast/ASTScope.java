@@ -44,7 +44,7 @@ public class ASTScope implements ASTNode {
 		c.emit(String.format("invokespecial frame%d/<init>()V", eCurr.depth()));
 		c.emit("dup");
 		c.emit("aload 0");
-		c.emit(String.format("putfield frame%d/sl Lframe%d", eCurr.depth(), e.depth()));
+		c.emit(String.format("putfield frame%d/sl Lframe%d;", eCurr.depth(), e.depth()));
 		c.emit("astore 0");
 		
 		int i = 0;
@@ -52,7 +52,7 @@ public class ASTScope implements ASTNode {
 		for (Entry<String, ASTNode> binding : bindings.entrySet()) {
 			c.emit("aload 0");
 			binding.getValue().compile(c, eCurr);
-			c.emit(String.format("putfield frame%d/v%d", eCurr.depth(), i));
+			c.emit(String.format("putfield frame%d/v%d I", eCurr.depth(), i));
 			eCurr.assoc(binding.getKey(), new Coordinates(eCurr.depth(), i));
 			i++;
 		}
@@ -60,7 +60,7 @@ public class ASTScope implements ASTNode {
 		body.compile(c, eCurr);
 		
 		c.emit("aload 0");
-		c.emit(String.format("getfield frame%d/sl Lframe%d", eCurr.depth(), e.depth()));
+		c.emit(String.format("getfield frame%d/sl Lframe%d;", eCurr.depth(), e.depth()));
 		c.emit("astore 0");
 	}
 	
