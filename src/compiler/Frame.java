@@ -1,6 +1,5 @@
 package compiler;
 
-import java.io.FileNotFoundException;
 import java.io.PrintStream;
 
 public class Frame {
@@ -18,8 +17,14 @@ public class Frame {
 	public void generateClass(int numBindings) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(".class public frame").append(id).append("\n")
-				.append(".super java/lang/Object\n")
-				.append(".field public parent Lframe").append(id-1).append(";\n");
+				.append(".super java/lang/Object\n");
+		
+		if (id == 0) {
+			sb.append(".field public parent Ljava/lang/Object;\n");
+		}
+		else {
+			sb.append(".field public parent Lframe").append(id-1).append(";\n");
+		}
 	
 		for (int i = 0; i < numBindings; i++) {
 			sb.append(".field public v").append(i).append(" I\n");
@@ -42,13 +47,26 @@ public class Frame {
 		c.emit("invokespecial frame" + id + "/<init>()V");
 		c.emit("dup");
 		c.emit("aload 0");
-		c.emit("putfield frame" + id + "/parent Lframe" + (id-1) + ";");
+		
+		if (id == 0) {
+			c.emit("putfield frame" + id + "/parent Ljava/lang/Object;");
+		}
+		else {
+			c.emit("putfield frame" + id + "/parent Lframe" + (id-1) + ";");
+		}
 		c.emit("astore 0");
 	}
 	
 	public void pop(CodeBlock c) {
 		c.emit("aload 0");
-		c.emit("getfield frame" + id + "/parent Lframe" + (id-1) + ";");
+		
+		if (id == 0) {
+			c.emit("getfield frame" + id + "/parent Ljava/lang/Object;");
+		}
+		else {
+			c.emit("getfield frame" + id + "/parent Lframe" + (id-1) + ";");
+		}
+		
 		c.emit("astore 0");
 	}
 	

@@ -13,9 +13,9 @@ public class Environment<V> {
 	private final int depth;
 	
 	public Environment() {
-		this.assocs = new HashMap<>();
+		this.assocs = null;
 		parent = null;
-		depth = 0;
+		depth = -1;
 	}
 	
 	public Environment(Environment<V> parent) {
