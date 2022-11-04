@@ -49,37 +49,16 @@
 	getfield frame1/v1 I
 	iadd
 	putfield frame2/v0 I
-	new frame3
-	dup
-	invokespecial frame3/<init>()V
-	dup
 	aload 0
-	putfield frame3/parent Lframe2;
-	astore 0
-	aload 0
-	aload 0
-	getfield frame3/parent Lframe2;
 	getfield frame2/parent Lframe1;
-	getfield frame1/v1 I
+	getfield frame1/v0 I
 	aload 0
-	getfield frame3/parent Lframe2;
-	getfield frame2/v0 I
-	iadd
-	putfield frame3/v0 I
-	aload 0
-	getfield frame3/v0 I
-	aload 0
-	getfield frame3/parent Lframe2;
 	getfield frame2/parent Lframe1;
 	getfield frame1/v1 I
 	iadd
 	aload 0
-	getfield frame3/parent Lframe2;
 	getfield frame2/v0 I
 	iadd
-	aload 0
-	getfield frame3/parent Lframe2;
-	astore 0
 	aload 0
 	getfield frame2/parent Lframe1;
 	astore 0

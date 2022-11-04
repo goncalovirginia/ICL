@@ -3,10 +3,7 @@
 	let y = 3;
 	{
 		let k = x + y;
-		{
-			let x = y + k;
-			x + y + k
-		}
+		x + y + k
 	}
 }
 ;;
