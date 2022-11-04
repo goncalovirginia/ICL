@@ -1,5 +1,9 @@
 package ast;
 
+import compiler.CodeBlock;
+import compiler.Coordinates;
+import environment.Environment;
+
 public class ASTNum implements ASTNode {
 	
 	private final int val;

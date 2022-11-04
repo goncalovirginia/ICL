@@ -1,6 +1,6 @@
 import ast.ASTNode;
-import ast.CodeBlock;
-import ast.Environment;
+import compiler.CodeBlock;
+import environment.Environment;
 import parser.Parser0;
 
 import java.io.FileInputStream;

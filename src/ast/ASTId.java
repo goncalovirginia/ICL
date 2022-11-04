@@ -1,5 +1,8 @@
 package ast;
 
+import compiler.CodeBlock;
+import compiler.Coordinates;
+import environment.Environment;
 import exceptions.UndeclaredIdentifierException;
 
 public class ASTId implements ASTNode {

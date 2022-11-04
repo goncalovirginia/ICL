@@ -1,4 +1,4 @@
-package ast;
+package environment;
 
 import exceptions.IDDeclaredTwiceException;
 import exceptions.UndeclaredIdentifierException;
