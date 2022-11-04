@@ -12,13 +12,13 @@ public class ASTNeg implements ASTNode {
 	}
 	
 	@Override
-	public int eval(Environment e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
+	public int eval(Environment<Integer> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
 		return -val.eval(e);
 	}
 	
 	@Override
-	public void compile(CodeBlock c) {
-		val.compile(c);
+	public void compile(CodeBlock c, Environment<Coordinates> e) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
+		val.compile(c, e);
 		c.emit("ineg");
 	}
 	

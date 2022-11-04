@@ -10,14 +10,14 @@ public class ASTSub extends ASTArithmetic {
 	}
 	
 	@Override
-	public int eval(Environment e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
+	public int eval(Environment<Integer> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
 		return l.eval(e) - r.eval(e);
 	}
 	
 	@Override
-	public void compile(CodeBlock c) {
-		l.compile(c);
-		r.compile(c);
+	public void compile(CodeBlock c, Environment<Coordinates> e) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
+		l.compile(c, e);
+		r.compile(c, e);
 		c.emit("isub");
 	}
 	

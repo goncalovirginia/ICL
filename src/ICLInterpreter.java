@@ -9,7 +9,7 @@ public class ICLInterpreter {
 		while (true) {
 			try {
 				System.out.print("> ");
-				System.out.println(Parser0.Start().eval(new Environment()));
+				System.out.println(Parser0.Start().eval(new Environment<>()));
 			}
 			catch (Exception e) {
 				e.printStackTrace();

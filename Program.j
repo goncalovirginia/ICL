@@ -20,9 +20,51 @@
 
 	getstatic java/lang/System/out Ljava/io/PrintStream;
 
-sipush 2
-sipush 1
-isub
+	new frame1
+	dup
+	invokespecial frame1/<init>()V
+	dup
+	aload 0
+	putfield frame1/sl Lframe0
+	astore 0
+	aload 0
+	sipush 2
+	putfield frame1/v0
+	aload 0
+	sipush 3
+	putfield frame1/v1
+	new frame2
+	dup
+	invokespecial frame2/<init>()V
+	dup
+	aload 0
+	putfield frame2/sl Lframe1
+	astore 0
+	aload 0
+	aload 0
+	getfield frame2/sl Lframe1
+	getfield frame1/v0 I
+	aload 0
+	getfield frame2/sl Lframe1
+	getfield frame1/v1 I
+	iadd
+	putfield frame2/v0
+	aload 0
+	getfield frame2/sl Lframe1
+	getfield frame1/v0 I
+	aload 0
+	getfield frame2/sl Lframe1
+	getfield frame1/v1 I
+	iadd
+	aload 0
+	getfield frame2/v0 I
+	iadd
+	aload 0
+	getfield frame2/sl Lframe1
+	astore 0
+	aload 0
+	getfield frame1/sl Lframe0
+	astore 0
 
 	; convert to String;
 	invokestatic java/lang/String/valueOf(I)Ljava/lang/String;

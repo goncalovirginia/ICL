@@ -9,12 +9,12 @@ public class ASTNum implements ASTNode {
 	}
 	
 	@Override
-	public int eval(Environment e) {
+	public int eval(Environment<Integer> e) {
 		return val;
 	}
 	
 	@Override
-	public void compile(CodeBlock c) {
+	public void compile(CodeBlock c, Environment<Coordinates> e) {
 		c.emit("sipush " + val);
 	}
 	

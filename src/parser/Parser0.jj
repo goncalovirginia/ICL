@@ -136,17 +136,17 @@ ASTNode Scope() :
 {
     Token id;
 	ASTNode val, body;
-	Map<String, ASTNode> variables = new HashMap<>();
+	Map<String, ASTNode> bindings = new HashMap<>();
 }
 {
 	(
 	<LET> id = <ID> <EQ> val = Exp() <SEMI>
 	{
-		variables.put(id.image, val);
+		bindings.put(id.image, val);
 	}
 	) *
 	body = Exp()
 	{
-		return new ASTScope(variables, body);
+		return new ASTScope(bindings, body);
 	}
 }

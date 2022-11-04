@@ -1,33 +1,30 @@
 import ast.ASTNode;
 import ast.CodeBlock;
+import ast.Environment;
 import parser.Parser0;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
 
 public class ICLCompiler {
 	
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args) {
 		if (args.length < 2) {
-			System.out.println("java <compiler> <source> <target>");
+			System.out.println("java ICLCompiler <source> <target>");
+			return;
 		}
 		
-		new Parser0(new FileInputStream(args[0]));
-		CodeBlock codeBlock = new CodeBlock();
-		
-		while (true) {
-			try {
-				ASTNode ast = Parser0.Start();
-				if (ast == null) return;
-				ast.compile(codeBlock);
-				compileJasmin(args[1], codeBlock.dump());
-				System.out.println("Compiled successfully.");
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
+		try {
+			new Parser0(new FileInputStream(args[0]));
+			ASTNode ast = Parser0.Start();
+			CodeBlock codeBlock = new CodeBlock();
+			ast.compile(codeBlock, new Environment<>());
+			compileJasmin(args[1], codeBlock.dump());
+			System.out.println("Compiled successfully.");
+		}
+		catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
