@@ -2,6 +2,7 @@ package ast;
 
 import compiler.CodeBlock;
 import compiler.Coordinates;
+import compiler.Frame;
 import environment.Environment;
 import exceptions.IDDeclaredTwiceException;
 import exceptions.UndeclaredIdentifierException;
@@ -37,31 +38,22 @@ public class ASTScope implements ASTNode {
 	public void compile(CodeBlock c, Environment<Coordinates> e) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
 		Environment<Coordinates> eCurr = e.beginScope();
 		
-		// TODO Generate framei class
-		
-		c.emit("new frame" + eCurr.depth());
-		c.emit("dup");
-		c.emit(String.format("invokespecial frame%d/<init>()V", eCurr.depth()));
-		c.emit("dup");
-		c.emit("aload 0");
-		c.emit(String.format("putfield frame%d/sl Lframe%d;", eCurr.depth(), e.depth()));
-		c.emit("astore 0");
+		Frame frame = new Frame(eCurr.depth());
+		frame.generateClass(bindings.size());
+		frame.push(c);
 		
 		int i = 0;
 		
 		for (Entry<String, ASTNode> binding : bindings.entrySet()) {
 			c.emit("aload 0");
 			binding.getValue().compile(c, eCurr);
-			c.emit(String.format("putfield frame%d/v%d I", eCurr.depth(), i));
-			eCurr.assoc(binding.getKey(), new Coordinates(eCurr.depth(), i));
+			c.emit("putfield frame" + frame.getId() + "/v" + i + " I");
+			eCurr.assoc(binding.getKey(), new Coordinates(frame.getId(), i));
 			i++;
 		}
 		
 		body.compile(c, eCurr);
-		
-		c.emit("aload 0");
-		c.emit(String.format("getfield frame%d/sl Lframe%d;", eCurr.depth(), e.depth()));
-		c.emit("astore 0");
+		frame.pop(c);
 	}
 	
 }

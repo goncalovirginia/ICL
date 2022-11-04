@@ -25,10 +25,10 @@ public class ASTId implements ASTNode {
 		c.emit("aload 0");
 		
 		for (int i = e.depth(); i > coordinates.frame(); i--) {
-			c.emit(String.format("getfield frame%d/sl Lframe%d;", i, i-1));
+			c.emit("getfield frame" + i + "/parent Lframe" + (i-1) + ";");
 		}
 		
-		c.emit(String.format("getfield frame%d/v%d I", coordinates.frame(), coordinates.slot()));
+		c.emit("getfield frame" + coordinates.frame() + "/v" + coordinates.slot() + " I");
 	}
 	
 }

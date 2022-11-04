@@ -9,7 +9,7 @@ public class CodeBlock {
 	}
 	
 	public void emit(String opcode) {
-		code.append(String.format("\t%s\n", opcode));
+		code.append("\t").append(opcode).append("\n");
 	}
 	
 	public String dump() {
