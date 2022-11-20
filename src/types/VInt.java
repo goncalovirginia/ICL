@@ -12,4 +12,9 @@ public class VInt implements IValue {
 		return v;
 	}
 	
+	@Override
+	public String toString() {
+		return Integer.toString(v);
+	}
+	
 }

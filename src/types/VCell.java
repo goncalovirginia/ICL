@@ -16,4 +16,9 @@ public class VCell implements IValue {
 		this.v = v;
 	}
 	
+	@Override
+	public String toString() {
+		return v.toString();
+	}
+	
 }

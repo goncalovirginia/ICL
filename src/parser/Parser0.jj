@@ -27,8 +27,6 @@ TOKEN :
 {
 	< NEW : "new" >
 	|
-	< ASSIGN : ":=" >
-	|
 	< IF : "if" >
 	|
 	< ELSE : "else" >
@@ -55,7 +53,7 @@ TOKEN :
 	|
 	< LET : "let" >
 	|
-	< ID: ["a"-"z","A"-"Z"] ( ["a"-"z","A"-"Z","0"-"9"] )* >
+	< ID: ["a"-"z","A"-"Z"] ( ["a"-"z","A"-"Z","0"-"9"] ) * >
 	|
 	< NUM: (["0"-"9"]) + >
 	|
@@ -85,9 +83,20 @@ ASTNode Start() :
 	ASTNode t;
 }
 {
-	t = Exp() <SEMI><SEMI>
+	t = Bind() <SEMI><SEMI>
 	{
 		return t;
+	}
+}
+
+ASTNode Bind() :
+{
+    ASTNode t1, t2;
+}
+{
+	t1 = BoolAdd() ( <BIND> t2 = BoolAdd() <SEMI> ) *
+	{
+		return new ASTAssign(t1, t2);
 	}
 }
 
@@ -107,26 +116,25 @@ ASTNode BoolMult() :
     ASTNode t1, t2;
 }
 {
-	t1 = Rel() ( <AND> t2 = Rel() ) *
+	t1 = RelOp() ( <AND> t2 = RelOp() ) *
 	{
 		return new ASTAnd(t1, t2);
 	}
 }
 
-ASTNode Rel() :
+ASTNode RelOp() :
 {
 	Token op;
 	ASTNode t1, t2;
 }
 {
-	t1 = Exp() ( ( op = <EQ> | op = <GR> | op = <GREQ> ) t2 = Exp()
+	t1 = Exp() ( ( op = <EQ> | op = <GREQ> | op = <GR> ) t2 = Exp()
 	{
-		if (op.kind == EQ)
-			t1 = new ASTEq(t1, t2);
-		else if (op.kind == GR)
-			t1 = new ASTGr(t1, t2);
-		else
-			t1 = new ASTGrEq(t1, t2);
+		switch (op.kind) {
+			case EQ -> t1 = new ASTEq(t1, t2);
+			case GREQ -> t1 = new ASTGrEq(t1, t2);
+			case GR -> t1 = new ASTGr(t1, t2);
+		}
 	}
     ) ?
     {
@@ -142,10 +150,10 @@ ASTNode Exp() :
 {
 	t1 = Term() ( ( op = <PLUS> | op = <MINUS> ) t2 = Term()
 	{
-	if (op.kind == PLUS)
-		t1 = new ASTAdd(t1, t2);
-	else
-		t1 = new ASTSub(t1, t2);
+		switch (op.kind) {
+			case PLUS -> t1 = new ASTAdd(t1, t2);
+			case MINUS -> t1 = new ASTSub(t1, t2);
+		}
 }
     ) *
     {
@@ -161,10 +169,10 @@ ASTNode Term() :
 {
 	t1 = Fact() ( ( op = <MULT> | op = <DIV> ) t2 = Term()
     {
-       if (op.kind == TIMES)
-		t1 = new ASTMult(t1, t2);
-	else
-		t1 = new ASTDiv(t1, t2);
+        switch (op.kind) {
+       	    case TIMES -> t1 = new ASTMult(t1, t2);
+       		case DIV -> t1 = new ASTDiv(t1, t2);
+	   }
 }
 	) ?
 	{
@@ -231,7 +239,9 @@ ASTNode Scope() :
 		bindings.put(id.image, val);
 	}
 	) *
-	body = Exp()
+	(
+		body = Exp()
+	) ?
 	{
 		return new ASTScope(bindings, body);
 	}

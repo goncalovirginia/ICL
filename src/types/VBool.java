@@ -11,5 +11,10 @@ public class VBool implements IValue {
 	public boolean getValue() {
 		return v;
 	}
+	
+	@Override
+	public String toString() {
+		return Boolean.toString(v);
+	}
 
 }

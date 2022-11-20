@@ -18,7 +18,7 @@ public class ASTPrintln implements ASTNode {
 	
 	@Override
 	public IValue eval(Environment<IValue> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
-		System.out.println(((VInt) v.eval(e)).getVal());
+		System.out.println(v.eval(e));
 		return null;
 	}
 	

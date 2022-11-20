@@ -1,7 +1,8 @@
 import environment.Environment;
 import parser.Parser0;
+import types.VInt;
 
-public class ICLInterpreter {
+public class Interpreter {
 	
 	public static void main(String[] args) {
 		new Parser0(System.in);

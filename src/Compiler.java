@@ -7,11 +7,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
-public class ICLCompiler {
+public class Compiler {
 	
 	public static void main(String[] args) {
 		if (args.length < 2) {
-			System.out.println("java ICLCompiler <source> <target>");
+			System.out.println("java Compiler <source> <target>");
 			return;
 		}
 		
