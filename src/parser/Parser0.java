@@ -3,6 +3,7 @@
 package parser;
 
 import ast.*;
+import ast.integer.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,7 +52,7 @@ public class Parser0 implements Parser0Constants {
 			}
 			t2 = Term();
 			if (op.kind == PLUS)
-				t1 = new ASTPlus(t1, t2);
+				t1 = new ASTAdd(t1, t2);
 			else
 				t1 = new ASTSub(t1, t2);
 		}
@@ -84,7 +85,7 @@ public class Parser0 implements Parser0Constants {
 				}
 				t2 = Term();
 				if (op.kind == TIMES)
-					t1 = new ASTTimes(t1, t2);
+					t1 = new ASTMult(t1, t2);
 				else
 					t1 = new ASTDiv(t1, t2);
 				break;

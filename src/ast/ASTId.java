@@ -4,6 +4,7 @@ import compiler.CodeBlock;
 import compiler.Coordinates;
 import environment.Environment;
 import exceptions.UndeclaredIdentifierException;
+import types.IValue;
 
 public class ASTId implements ASTNode {
 	
@@ -14,7 +15,7 @@ public class ASTId implements ASTNode {
 	}
 	
 	@Override
-	public int eval(Environment<Integer> e) throws UndeclaredIdentifierException {
+	public IValue eval(Environment<IValue> e) throws UndeclaredIdentifierException {
 		return e.find(id);
 	}
 	

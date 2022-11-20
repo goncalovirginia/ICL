@@ -1,8 +1,11 @@
-package ast;
+package ast.integer;
 
+import ast.ASTNode;
 import compiler.CodeBlock;
 import compiler.Coordinates;
 import environment.Environment;
+import types.IValue;
+import types.VInt;
 
 public class ASTNum implements ASTNode {
 	
@@ -13,8 +16,8 @@ public class ASTNum implements ASTNode {
 	}
 	
 	@Override
-	public int eval(Environment<Integer> e) {
-		return val;
+	public IValue eval(Environment<IValue> e) {
+		return new VInt(val);
 	}
 	
 	@Override

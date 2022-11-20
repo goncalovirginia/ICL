@@ -2,7 +2,7 @@ PARSER_BEGIN(Parser0)
 
 package parser;
 
-import ast.*;
+import ast.*;import ast.integer.ASTAdd;import ast.integer.ASTDiv;import ast.integer.ASTSub;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -25,9 +25,33 @@ SKIP :
 
 TOKEN :
 {
-	< LCBRA : "{" >
+	< NEW : "new" >
 	|
-	< RCBRA : "}" >
+	< ASSIGN : ":=" >
+	|
+	< IF : "if" >
+	|
+	< ELSE : "else" >
+	|
+	< WHILE : "while" >
+	|
+	< PRINTLN : "println" >
+	|
+	< TRUE : "true" >
+	|
+	< FALSE : "false" >
+	|
+	< NOT : "!" >
+	|
+	< EQ : "==" >
+	|
+	< GR : ">" >
+	|
+	< GREQ : ">=" >
+	|
+	< AND : "&&" >
+	|
+	< OR : "||" >
 	|
 	< LET : "let" >
 	|
@@ -37,19 +61,23 @@ TOKEN :
 	|
 	< PLUS : "+" >
 	|
-	< MINUS : "-">
+	< MINUS : "-" >
 	|
-	< TIMES : "*">
+	< MULT : "*" >
 	|
-	< DIV : "/">
+	< DIV : "/" >
 	|
 	< LPAR : "(" >
 	|
 	< RPAR : ")" >
 	|
-	< EQ : "=" >
+	< BIND : "=" >
 	|
 	< SEMI : ";" >
+	|
+	< LCBRA : "{" >
+	|
+	< RCBRA : "}" >
 }
 
 ASTNode Start() :
@@ -63,6 +91,49 @@ ASTNode Start() :
 	}
 }
 
+ASTNode BoolAdd() :
+{
+    ASTNode t1, t2;
+}
+{
+	t1 = BoolMult() ( <OR> t2 = BoolMult() ) *
+	{
+		return new ASTOr(t1, t2);
+	}
+}
+
+ASTNode BoolMult() :
+{
+    ASTNode t1, t2;
+}
+{
+	t1 = Rel() ( <AND> t2 = Rel() ) *
+	{
+		return new ASTAnd(t1, t2);
+	}
+}
+
+ASTNode Rel() :
+{
+	Token op;
+	ASTNode t1, t2;
+}
+{
+	t1 = Exp() ( ( op = <EQ> | op = <GR> | op = <GREQ> ) t2 = Exp()
+	{
+		if (op.kind == EQ)
+			t1 = new ASTEq(t1, t2);
+		else if (op.kind == GR)
+			t1 = new ASTGr(t1, t2);
+		else
+			t1 = new ASTGrEq(t1, t2);
+	}
+    ) ?
+    {
+		return t1;
+	}
+}
+
 ASTNode Exp() :
 {
 	Token op;
@@ -72,7 +143,7 @@ ASTNode Exp() :
 	t1 = Term() ( ( op = <PLUS> | op = <MINUS> ) t2 = Term()
 	{
 	if (op.kind == PLUS)
-		t1 = new ASTPlus(t1, t2);
+		t1 = new ASTAdd(t1, t2);
 	else
 		t1 = new ASTSub(t1, t2);
 }
@@ -88,10 +159,10 @@ ASTNode Term() :
 	ASTNode t1, t2;
 }
 {
-	t1 = Fact() ( ( op = <TIMES> | op = <DIV> ) t2 = Term()
+	t1 = Fact() ( ( op = <MULT> | op = <DIV> ) t2 = Term()
     {
        if (op.kind == TIMES)
-		t1 = new ASTTimes(t1, t2);
+		t1 = new ASTMult(t1, t2);
 	else
 		t1 = new ASTDiv(t1, t2);
 }
@@ -113,19 +184,34 @@ ASTNode Fact() :
 		t = new ASTNum(Integer.parseInt(n.image));
     }
 	|
-	<LPAR> t = Exp() <RPAR>
+	n = <ID>
+	{
+		t = new ASTId(n.image);
+	}
+	|
+	<TRUE>
+	{
+		t = new ASTNum(1);
+	}
+	|
+	<FALSE>
+	{
+		t = new ASTNum(0);
+	}
+	|
+	<LPAR> t = BoolAdd() <RPAR>
 	|
 	<MINUS>
 	{
 		t = new ASTNeg(Fact());
 	}
 	|
-	<LCBRA> t = Scope() <RCBRA>
-	|
-	n = <ID>
+	<NOT>
 	{
-		t = new ASTId(n.image);
+		t = new ASTNeg(Fact());
 	}
+	|
+	<LCBRA> t = Scope() <RCBRA>
 	)
 	{
 		return t;
@@ -140,7 +226,7 @@ ASTNode Scope() :
 }
 {
 	(
-	<LET> id = <ID> <EQ> val = Exp() <SEMI>
+	<LET> id = <ID> <BIND> val = Exp() <SEMI>
 	{
 		bindings.put(id.image, val);
 	}

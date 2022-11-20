@@ -1,4 +1,6 @@
-package ast;
+package ast.integer;
+
+import ast.ASTNode;
 
 public abstract class ASTArithmetic implements ASTNode {
 	

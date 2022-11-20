@@ -5,23 +5,25 @@ import compiler.Coordinates;
 import environment.Environment;
 import exceptions.IDDeclaredTwiceException;
 import exceptions.UndeclaredIdentifierException;
+import types.IValue;
+import types.VInt;
 
-public class ASTTimes extends ASTArithmetic {
+public class ASTPrintln implements ASTNode {
 	
-	public ASTTimes(ASTNode l, ASTNode r) {
-		super(l, r);
+	private final ASTNode v;
+	
+	public ASTPrintln(ASTNode v) {
+		this.v = v;
 	}
 	
 	@Override
-	public int eval(Environment<Integer> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
-		return l.eval(e) * r.eval(e);
+	public IValue eval(Environment<IValue> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
+		System.out.println(((VInt) v.eval(e)).getVal());
+		return null;
 	}
 	
 	@Override
 	public void compile(CodeBlock c, Environment<Coordinates> e) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
-		l.compile(c, e);
-		r.compile(c, e);
-		c.emit("imul");
-	}
 	
+	}
 }

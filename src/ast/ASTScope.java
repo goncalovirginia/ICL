@@ -6,14 +6,12 @@ import compiler.Frame;
 import environment.Environment;
 import exceptions.IDDeclaredTwiceException;
 import exceptions.UndeclaredIdentifierException;
+import types.IValue;
 
 import java.util.Map;
 import java.util.Map.Entry;
 
 public class ASTScope implements ASTNode {
-	
-	private static final String FRAME_FORMAT = ".class public frame%d\n.super java/lang/Object\n.field public sl Lframe%d;";
-	private static final String FIELD_FORMAT = ".field public v%d I";
 	
 	private final Map<String, ASTNode> bindings;
 	private final ASTNode body;
@@ -24,8 +22,8 @@ public class ASTScope implements ASTNode {
 	}
 	
 	@Override
-	public int eval(Environment<Integer> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
-		Environment<Integer> eCurr = e.beginScope();
+	public IValue eval(Environment<IValue> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
+		Environment<IValue> eCurr = e.beginScope();
 		
 		for (Entry<String, ASTNode> binding : bindings.entrySet()) {
 			eCurr.assoc(binding.getKey(), binding.getValue().eval(eCurr));
