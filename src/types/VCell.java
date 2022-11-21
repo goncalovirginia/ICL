@@ -12,8 +12,8 @@ public class VCell implements IValue {
 		return v;
 	}
 	
-	public void set(IValue v) {
-		this.v = v;
+	public IValue set(IValue v) {
+		return this.v = v;
 	}
 	
 	@Override

@@ -8,19 +8,15 @@ import exceptions.UndeclaredIdentifierException;
 import types.IValue;
 import types.VCell;
 
-public class ASTAssign implements ASTNode {
-	
-	private final ASTNode l, r;
-	
+public class ASTAssign extends ASTLeftRight {
+
 	public ASTAssign(ASTNode l, ASTNode r) {
-		this.l = l;
-		this.r = r;
+		super(l, r);
 	}
 	
 	@Override
 	public IValue eval(Environment<IValue> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
-		((VCell) l.eval(e)).set(r.eval(e));
-		return (VCell) l;
+		return ((VCell) l.eval(e)).set(r.eval(e));
 	}
 	
 	@Override

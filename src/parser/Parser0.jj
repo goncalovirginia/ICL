@@ -2,7 +2,9 @@ PARSER_BEGIN(Parser0)
 
 package parser;
 
-import ast.*;import ast.integer.ASTAdd;import ast.integer.ASTDiv;import ast.integer.ASTSub;
+import ast.*;
+import ast.integer.*;
+import ast.bool.*;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -94,10 +96,11 @@ ASTNode Bind() :
     ASTNode t1, t2;
 }
 {
-	t1 = BoolAdd() ( <BIND> t2 = BoolAdd() <SEMI> ) *
+	t1 = BoolAdd() ( <BIND> t2 = BoolAdd() <SEMI>
 	{
 		return new ASTAssign(t1, t2);
 	}
+	) *
 }
 
 ASTNode BoolAdd() :
@@ -105,10 +108,11 @@ ASTNode BoolAdd() :
     ASTNode t1, t2;
 }
 {
-	t1 = BoolMult() ( <OR> t2 = BoolMult() ) *
+	t1 = BoolMult() ( <OR> t2 = BoolMult()
 	{
 		return new ASTOr(t1, t2);
 	}
+	) *
 }
 
 ASTNode BoolMult() :
@@ -116,10 +120,11 @@ ASTNode BoolMult() :
     ASTNode t1, t2;
 }
 {
-	t1 = RelOp() ( <AND> t2 = RelOp() ) *
+	t1 = RelOp() ( <AND> t2 = RelOp()
 	{
 		return new ASTAnd(t1, t2);
 	}
+	) *
 }
 
 ASTNode RelOp() :
@@ -130,11 +135,9 @@ ASTNode RelOp() :
 {
 	t1 = Exp() ( ( op = <EQ> | op = <GREQ> | op = <GR> ) t2 = Exp()
 	{
-		switch (op.kind) {
-			case EQ -> t1 = new ASTEq(t1, t2);
-			case GREQ -> t1 = new ASTGrEq(t1, t2);
-			case GR -> t1 = new ASTGr(t1, t2);
-		}
+			if (op.kind == EQ) t1 = new ASTEq(t1, t2);
+			else if (op.kind == GREQ) t1 = new ASTGrEq(t1, t2);
+			else if (op.kind == GR) t1 = new ASTGr(t1, t2);
 	}
     ) ?
     {
@@ -150,11 +153,9 @@ ASTNode Exp() :
 {
 	t1 = Term() ( ( op = <PLUS> | op = <MINUS> ) t2 = Term()
 	{
-		switch (op.kind) {
-			case PLUS -> t1 = new ASTAdd(t1, t2);
-			case MINUS -> t1 = new ASTSub(t1, t2);
-		}
-}
+		if (op.kind == PLUS) t1 = new ASTAdd(t1, t2);
+		else if (op.kind == MINUS) t1 = new ASTSub(t1, t2);
+	}
     ) *
     {
 		return t1;
@@ -169,11 +170,9 @@ ASTNode Term() :
 {
 	t1 = Fact() ( ( op = <MULT> | op = <DIV> ) t2 = Term()
     {
-        switch (op.kind) {
-       	    case TIMES -> t1 = new ASTMult(t1, t2);
-       		case DIV -> t1 = new ASTDiv(t1, t2);
-	   }
-}
+       	if (op.kind == MULT) t1 = new ASTMult(t1, t2);
+       	else if (op.kind == DIV) t1 = new ASTDiv(t1, t2);
+	}
 	) ?
 	{
 		return t1;
@@ -187,6 +186,21 @@ ASTNode Fact() :
 }
 {
 	(
+	<TRUE>
+	{
+		t = new ASTBool(true);
+	}
+	|
+	<FALSE>
+	{
+		t = new ASTBool(false);
+	}
+	|
+	<PRINTLN>
+	{
+		t = new ASTPrintln(BoolAdd());
+	}
+	|
     n = <NUM>
 	{
 		t = new ASTNum(Integer.parseInt(n.image));
@@ -195,16 +209,6 @@ ASTNode Fact() :
 	n = <ID>
 	{
 		t = new ASTId(n.image);
-	}
-	|
-	<TRUE>
-	{
-		t = new ASTNum(1);
-	}
-	|
-	<FALSE>
-	{
-		t = new ASTNum(0);
 	}
 	|
 	<LPAR> t = BoolAdd() <RPAR>
@@ -216,7 +220,7 @@ ASTNode Fact() :
 	|
 	<NOT>
 	{
-		t = new ASTNeg(Fact());
+		t = new ASTNot(BoolAdd());
 	}
 	|
 	<LCBRA> t = Scope() <RCBRA>
@@ -228,19 +232,20 @@ ASTNode Fact() :
 
 ASTNode Scope() :
 {
-    Token id;
-	ASTNode val, body;
+    Token id, n = null;
+	ASTNode val, body = null;
 	Map<String, ASTNode> bindings = new HashMap<>();
 }
 {
 	(
-	<LET> id = <ID> <BIND> val = Exp() <SEMI>
+	<LET> id = <ID> <BIND> ( n = <NEW> ) ? val = BoolAdd() <SEMI>
 	{
+		if (n != null) {val = new ASTNew(val);}
 		bindings.put(id.image, val);
 	}
 	) *
 	(
-		body = Exp()
+		body = Bind()
 	) ?
 	{
 		return new ASTScope(bindings, body);

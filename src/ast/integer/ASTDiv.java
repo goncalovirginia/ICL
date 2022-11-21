@@ -1,5 +1,6 @@
 package ast.integer;
 
+import ast.ASTLeftRight;
 import ast.ASTNode;
 import compiler.CodeBlock;
 import compiler.Coordinates;
@@ -9,7 +10,7 @@ import exceptions.UndeclaredIdentifierException;
 import types.IValue;
 import types.VInt;
 
-public class ASTDiv extends ASTArithmetic {
+public class ASTDiv extends ASTLeftRight {
 	
 	public ASTDiv(ASTNode l, ASTNode r) {
 		super(l, r);
@@ -17,7 +18,7 @@ public class ASTDiv extends ASTArithmetic {
 	
 	@Override
 	public IValue eval(Environment<IValue> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
-		return new VInt(((VInt) l.eval(e)).getVal() / ((VInt) r.eval(e)).getVal());
+		return new VInt(((VInt) l.eval(e)).getValue() / ((VInt) r.eval(e)).getValue());
 	}
 	
 	@Override

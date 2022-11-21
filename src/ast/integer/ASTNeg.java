@@ -19,7 +19,7 @@ public class ASTNeg implements ASTNode {
 	
 	@Override
 	public IValue eval(Environment<IValue> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
-		return new VInt(-((VInt) val.eval(e)).getVal());
+		return new VInt(-((VInt) val.eval(e)).getValue());
 	}
 	
 	@Override

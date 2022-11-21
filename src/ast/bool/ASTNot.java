@@ -1,4 +1,4 @@
-package ast.integer;
+package ast.bool;
 
 import ast.ASTLeftRight;
 import ast.ASTNode;
@@ -8,24 +8,24 @@ import environment.Environment;
 import exceptions.IDDeclaredTwiceException;
 import exceptions.UndeclaredIdentifierException;
 import types.IValue;
-import types.VInt;
+import types.VBool;
 
-public class ASTSub extends ASTLeftRight {
+public class ASTNot implements ASTNode {
 	
-	public ASTSub(ASTNode l, ASTNode r) {
-		super(l, r);
+	private final ASTNode v;
+	
+	public ASTNot(ASTNode v) {
+		this.v = v;
 	}
 	
 	@Override
 	public IValue eval(Environment<IValue> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
-		return new VInt(((VInt) l.eval(e)).getValue() - ((VInt) r.eval(e)).getValue());
+		return new VBool(!((VBool) v.eval(e)).getValue());
 	}
 	
 	@Override
 	public void compile(CodeBlock c, Environment<Coordinates> e) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
-		l.compile(c, e);
-		r.compile(c, e);
-		c.emit("isub");
+	
 	}
 	
 }

@@ -16,5 +16,10 @@ public class VBool implements IValue {
 	public String toString() {
 		return Boolean.toString(v);
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		return v == ((VBool) obj).getValue();
+	}
 
 }
