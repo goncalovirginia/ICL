@@ -19,7 +19,7 @@ public class VInt implements IValue {
 	
 	@Override
 	public boolean equals(Object obj) {
-		return v == ((VInt) obj).getValue();
+		return v == ((VInt) obj).v;
 	}
 	
 }

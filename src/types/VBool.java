@@ -19,7 +19,7 @@ public class VBool implements IValue {
 	
 	@Override
 	public boolean equals(Object obj) {
-		return v == ((VBool) obj).getValue();
+		return v == ((VBool) obj).v;
 	}
 
 }

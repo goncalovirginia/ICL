@@ -224,6 +224,8 @@ ASTNode Fact() :
 	}
 	|
 	<LCBRA> t = Scope() <RCBRA>
+	|
+	<WHILE> t = While()
 	)
 	{
 		return t;
@@ -240,7 +242,8 @@ ASTNode Scope() :
 	(
 	<LET> id = <ID> <BIND> ( n = <NEW> ) ? val = BoolAdd() <SEMI>
 	{
-		if (n != null) {val = new ASTNew(val);}
+		if (n != null)
+			val = new ASTNew(val);
 		bindings.put(id.image, val);
 	}
 	) *
@@ -250,4 +253,15 @@ ASTNode Scope() :
 	{
 		return new ASTScope(bindings, body);
 	}
+}
+
+ASTNode While() :
+{
+	ASTNode condition, body;
+}
+{
+	condition = BoolAdd() <LCBRA> body = Bind() <RCBRA>
+	{
+        return new ASTWhile(condition, body);
+    }
 }
