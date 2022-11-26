@@ -23,4 +23,5 @@ public class ASTAssign extends ASTLeftRight {
 	public void compile(CodeBlock c, Environment<Coordinates> e) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
 	
 	}
+	
 }

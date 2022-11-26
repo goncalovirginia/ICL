@@ -98,9 +98,12 @@ ASTNode Bind() :
 {
 	t1 = BoolAdd() ( <BIND> t2 = BoolAdd() <SEMI>
 	{
-		return new ASTAssign(t1, t2);
+		t1 = new ASTAssign(t1, t2);
 	}
 	) *
+	{
+		return t1;
+	}
 }
 
 ASTNode BoolAdd() :
@@ -110,9 +113,12 @@ ASTNode BoolAdd() :
 {
 	t1 = BoolMult() ( <OR> t2 = BoolMult()
 	{
-		return new ASTOr(t1, t2);
+		t1 = new ASTOr(t1, t2);
 	}
 	) *
+	{
+    	return t1;
+    }
 }
 
 ASTNode BoolMult() :
@@ -122,9 +128,12 @@ ASTNode BoolMult() :
 {
 	t1 = RelOp() ( <AND> t2 = RelOp()
 	{
-		return new ASTAnd(t1, t2);
+		t1 = new ASTAnd(t1, t2);
 	}
 	) *
+	{
+        return t1;
+    }
 }
 
 ASTNode RelOp() :

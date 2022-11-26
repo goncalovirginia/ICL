@@ -34,8 +34,9 @@ public class Parser0 implements Parser0Constants {
       jj_consume_token(BIND);
       t2 = BoolAdd();
       jj_consume_token(SEMI);
-{if ("" != null) return new ASTAssign(t1, t2);}
+t1 = new ASTAssign(t1, t2);
     }
+{if ("" != null) return t1;}
     throw new Error("Missing return statement in function");
 }
 
@@ -54,8 +55,9 @@ public class Parser0 implements Parser0Constants {
       }
       jj_consume_token(OR);
       t2 = BoolMult();
-{if ("" != null) return new ASTOr(t1, t2);}
+t1 = new ASTOr(t1, t2);
     }
+{if ("" != null) return t1;}
     throw new Error("Missing return statement in function");
 }
 
@@ -74,8 +76,9 @@ public class Parser0 implements Parser0Constants {
       }
       jj_consume_token(AND);
       t2 = RelOp();
-{if ("" != null) return new ASTAnd(t1, t2);}
+t1 = new ASTAnd(t1, t2);
     }
+{if ("" != null) return t1;}
     throw new Error("Missing return statement in function");
 }
 
@@ -238,6 +241,11 @@ t = new ASTNot(BoolAdd());
       jj_consume_token(RCBRA);
       break;
       }
+    case WHILE:{
+      jj_consume_token(WHILE);
+      t = While();
+      break;
+      }
     default:
       jj_la1[9] = jj_gen;
       jj_consume_token(-1);
@@ -280,6 +288,7 @@ if (n != null)
                 bindings.put(id.image, val);
     }
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case WHILE:
     case PRINTLN:
     case TRUE:
     case FALSE:
@@ -300,6 +309,15 @@ if (n != null)
     throw new Error("Missing return statement in function");
 }
 
+  static final public ASTNode While() throws ParseException {ASTNode condition, body;
+    condition = BoolAdd();
+    jj_consume_token(LCBRA);
+    body = Bind();
+    jj_consume_token(RCBRA);
+{if ("" != null) return new ASTWhile(condition, body);}
+    throw new Error("Missing return statement in function");
+}
+
   static private boolean jj_initialized_once = false;
   /** Generated Token Manager. */
   static public Parser0TokenManager token_source;
@@ -316,7 +334,7 @@ if (n != null)
 	   jj_la1_init_0();
 	}
 	private static void jj_la1_init_0() {
-	   jj_la1_0 = new int[] {0x8000000,0x20000,0x10000,0xe000,0xe000,0x600000,0x600000,0x1800000,0x1800000,0x22581e00,0x40000,0x20,0x22581e00,};
+	   jj_la1_0 = new int[] {0x8000000,0x20000,0x10000,0xe000,0xe000,0x600000,0x600000,0x1800000,0x1800000,0x22581f00,0x40000,0x20,0x22581f00,};
 	}
 
   /** Constructor with InputStream. */
