@@ -7,6 +7,7 @@ import exceptions.IDDeclaredTwiceException;
 import exceptions.TypeErrorException;
 import exceptions.UndeclaredIdentifierException;
 import types.Type;
+import types.VBool;
 import types.Value;
 
 public class ASTWhile implements ASTNode {
@@ -20,7 +21,10 @@ public class ASTWhile implements ASTNode {
 	
 	@Override
 	public Value eval(Environment<Value> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
-		return null;
+		while (((VBool) condition.eval(e)).getValue()) {
+			body.eval(e);
+		}
+		return new VBool(true);
 	}
 	
 	@Override
