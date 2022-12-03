@@ -31,6 +31,8 @@ TOKEN :
 	|
 	< MUT : "mut" >
 	|
+	< NEW : "new" >
+	|
 	< IF : "if" >
 	|
 	< ELSE : "else" >
@@ -259,15 +261,15 @@ ASTNode Fact() :
 
 ASTNode Scope() :
 {
-    Token id, m = null;
+    Token id, m = null, n = null;
 	ASTNode val, body = null;
 	Map<String, ASTNode> bindings = new HashMap<>();
 }
 {
 	(
-	<LET> ( m = <MUT> ) ? id = <ID> <BIND> val = BoolAdd() <SEMI>
+	<LET> ( m = <MUT> ) ? id = <ID> <BIND> ( n = <NEW> ) ? val = BoolAdd() <SEMI>
 	{
-		if (m != null)
+		if (m != null && n == null || m == null && n != null)
 			val = new ASTNew(val);
 		bindings.put(id.image, val);
 	}
