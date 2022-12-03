@@ -1,6 +1,6 @@
 package types;
 
-public class VInt implements IValue {
+public class VInt implements Value {
 	
 	private final int v;
 	

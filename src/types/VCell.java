@@ -1,18 +1,18 @@
 package types;
 
-public class VCell implements IValue {
+public class VCell implements Value {
 	
-	private IValue v;
+	private Value v;
 	
-	public VCell(IValue v) {
+	public VCell(Value v) {
 		this.v = v;
 	}
 	
-	public IValue getValue() {
+	public Value getValue() {
 		return v;
 	}
 	
-	public IValue set(IValue v) {
+	public Value set(Value v) {
 		return this.v = v;
 	}
 	

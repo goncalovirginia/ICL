@@ -4,8 +4,10 @@ import compiler.CodeBlock;
 import compiler.Coordinates;
 import environment.Environment;
 import exceptions.IDDeclaredTwiceException;
+import exceptions.TypeErrorException;
 import exceptions.UndeclaredIdentifierException;
-import types.IValue;
+import types.Type;
+import types.Value;
 
 public class ASTWhile implements ASTNode {
 	
@@ -17,12 +19,17 @@ public class ASTWhile implements ASTNode {
 	}
 	
 	@Override
-	public IValue eval(Environment<IValue> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
+	public Value eval(Environment<Value> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
 		return null;
 	}
 	
 	@Override
 	public void compile(CodeBlock c, Environment<Coordinates> e) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
 	
+	}
+	
+	@Override
+	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
+		return null;
 	}
 }

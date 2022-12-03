@@ -27,7 +27,9 @@ SKIP :
 
 TOKEN :
 {
-	< NEW : "new" >
+	< DEREF : "~" >
+	|
+	< MUT : "mut" >
 	|
 	< IF : "if" >
 	|
@@ -75,6 +77,8 @@ TOKEN :
 	|
 	< SEMI : ";" >
 	|
+	< DSEMI : ";;" >
+	|
 	< LCBRA : "{" >
 	|
 	< RCBRA : "}" >
@@ -85,7 +89,14 @@ ASTNode Start() :
 	ASTNode t;
 }
 {
-	t = Bind() <SEMI><SEMI>
+	t = Bind()
+	(
+		<SEMI>
+		{
+			t = new ASTExpSeq(t, Bind());
+		}
+	) *
+	( <DSEMI> ) ?
 	{
 		return t;
 	}
@@ -96,7 +107,7 @@ ASTNode Bind() :
     ASTNode t1, t2;
 }
 {
-	t1 = BoolAdd() ( <BIND> t2 = BoolAdd() <SEMI>
+	t1 = BoolAdd() ( <BIND> t2 = BoolAdd()
 	{
 		t1 = new ASTAssign(t1, t2);
 	}
@@ -195,6 +206,11 @@ ASTNode Fact() :
 }
 {
 	(
+	<DEREF>
+	{
+		t = new ASTDeref(Fact());
+	}
+	|
 	<TRUE>
 	{
 		t = new ASTBool(true);
@@ -243,22 +259,22 @@ ASTNode Fact() :
 
 ASTNode Scope() :
 {
-    Token id, n = null;
+    Token id, m = null;
 	ASTNode val, body = null;
 	Map<String, ASTNode> bindings = new HashMap<>();
 }
 {
 	(
-	<LET> id = <ID> <BIND> ( n = <NEW> ) ? val = BoolAdd() <SEMI>
+	<LET> ( m = <MUT> ) ? id = <ID> <BIND> val = BoolAdd() <SEMI>
 	{
-		if (n != null)
+		if (m != null)
 			val = new ASTNew(val);
 		bindings.put(id.image, val);
 	}
 	) *
 	(
-		body = Bind()
-	) ?
+		body = Start()
+	) +
 	{
 		return new ASTScope(bindings, body);
 	}
@@ -269,7 +285,7 @@ ASTNode While() :
 	ASTNode condition, body;
 }
 {
-	condition = BoolAdd() <LCBRA> body = Bind() <RCBRA>
+	condition = BoolAdd() <LCBRA> body = Start() <RCBRA>
 	{
         return new ASTWhile(condition, body);
     }

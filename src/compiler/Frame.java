@@ -23,9 +23,9 @@ public class Frame {
 			stringBuilder.append(".field public parent Ljava/lang/Object;\n");
 		}
 		else {
-			stringBuilder.append(".field public parent Lframe").append(id-1).append(";\n");
+			stringBuilder.append(".field public parent Lframe").append(id - 1).append(";\n");
 		}
-	
+		
 		for (int i = 0; i < numBindings; i++) {
 			stringBuilder.append(".field public v").append(i).append(" I\n");
 		}
@@ -53,7 +53,7 @@ public class Frame {
 			c.emit("putfield frame" + id + "/parent Ljava/lang/Object;");
 		}
 		else {
-			c.emit("putfield frame" + id + "/parent Lframe" + (id-1) + ";");
+			c.emit("putfield frame" + id + "/parent Lframe" + (id - 1) + ";");
 		}
 		c.emit("astore 0");
 	}
@@ -65,7 +65,7 @@ public class Frame {
 			c.emit("getfield frame" + id + "/parent Ljava/lang/Object;");
 		}
 		else {
-			c.emit("getfield frame" + id + "/parent Lframe" + (id-1) + ";");
+			c.emit("getfield frame" + id + "/parent Lframe" + (id - 1) + ";");
 		}
 		
 		c.emit("astore 0");

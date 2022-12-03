@@ -9,17 +9,16 @@ import exceptions.UndeclaredIdentifierException;
 import types.Type;
 import types.Value;
 
-public class ASTPrintln implements ASTNode {
+public class ASTExpSeq extends ASTPair {
 	
-	private final ASTNode v;
-	
-	public ASTPrintln(ASTNode v) {
-		this.v = v;
+	public ASTExpSeq(ASTNode l, ASTNode r) {
+		super(l, r);
 	}
 	
 	@Override
 	public Value eval(Environment<Value> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
-		return v.eval(e);
+		l.eval(e);
+		return r.eval(e);
 	}
 	
 	@Override

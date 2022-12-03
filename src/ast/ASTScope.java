@@ -5,8 +5,10 @@ import compiler.Coordinates;
 import compiler.Frame;
 import environment.Environment;
 import exceptions.IDDeclaredTwiceException;
+import exceptions.TypeErrorException;
 import exceptions.UndeclaredIdentifierException;
-import types.IValue;
+import types.Type;
+import types.Value;
 
 import java.util.Map;
 import java.util.Map.Entry;
@@ -22,8 +24,8 @@ public class ASTScope implements ASTNode {
 	}
 	
 	@Override
-	public IValue eval(Environment<IValue> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
-		Environment<IValue> eCurr = e.beginScope();
+	public Value eval(Environment<Value> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
+		Environment<Value> eCurr = e.beginScope();
 		
 		for (Entry<String, ASTNode> binding : bindings.entrySet()) {
 			eCurr.assoc(binding.getKey(), binding.getValue().eval(eCurr));
@@ -52,6 +54,11 @@ public class ASTScope implements ASTNode {
 		
 		body.compile(c, eCurr);
 		frame.pop(c);
+	}
+	
+	@Override
+	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
+		return null;
 	}
 	
 }

@@ -1,7 +1,7 @@
 package types;
 
-public interface IValue {
-
+public interface Value {
+	
 	@Override
 	String toString();
 	

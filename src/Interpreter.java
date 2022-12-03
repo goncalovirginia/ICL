@@ -1,6 +1,5 @@
 import environment.Environment;
 import parser.Parser0;
-import types.VInt;
 
 public class Interpreter {
 	

@@ -11,57 +11,61 @@ public interface Parser0Constants {
   /** End of File. */
   int EOF = 0;
   /** RegularExpression Id. */
-  int NEW = 5;
+  int DEREF = 5;
   /** RegularExpression Id. */
-  int IF = 6;
+  int MUT = 6;
   /** RegularExpression Id. */
-  int ELSE = 7;
+  int IF = 7;
   /** RegularExpression Id. */
-  int WHILE = 8;
+  int ELSE = 8;
   /** RegularExpression Id. */
-  int PRINTLN = 9;
+  int WHILE = 9;
   /** RegularExpression Id. */
-  int TRUE = 10;
+  int PRINTLN = 10;
   /** RegularExpression Id. */
-  int FALSE = 11;
+  int TRUE = 11;
   /** RegularExpression Id. */
-  int NOT = 12;
+  int FALSE = 12;
   /** RegularExpression Id. */
-  int EQ = 13;
+  int NOT = 13;
   /** RegularExpression Id. */
-  int GR = 14;
+  int EQ = 14;
   /** RegularExpression Id. */
-  int GREQ = 15;
+  int GR = 15;
   /** RegularExpression Id. */
-  int AND = 16;
+  int GREQ = 16;
   /** RegularExpression Id. */
-  int OR = 17;
+  int AND = 17;
   /** RegularExpression Id. */
-  int LET = 18;
+  int OR = 18;
   /** RegularExpression Id. */
-  int ID = 19;
+  int LET = 19;
   /** RegularExpression Id. */
-  int NUM = 20;
+  int ID = 20;
   /** RegularExpression Id. */
-  int PLUS = 21;
+  int NUM = 21;
   /** RegularExpression Id. */
-  int MINUS = 22;
+  int PLUS = 22;
   /** RegularExpression Id. */
-  int MULT = 23;
+  int MINUS = 23;
   /** RegularExpression Id. */
-  int DIV = 24;
+  int MULT = 24;
   /** RegularExpression Id. */
-  int LPAR = 25;
+  int DIV = 25;
   /** RegularExpression Id. */
-  int RPAR = 26;
+  int LPAR = 26;
   /** RegularExpression Id. */
-  int BIND = 27;
+  int RPAR = 27;
   /** RegularExpression Id. */
-  int SEMI = 28;
+  int BIND = 28;
   /** RegularExpression Id. */
-  int LCBRA = 29;
+  int SEMI = 29;
   /** RegularExpression Id. */
-  int RCBRA = 30;
+  int DSEMI = 30;
+  /** RegularExpression Id. */
+  int LCBRA = 31;
+  /** RegularExpression Id. */
+  int RCBRA = 32;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -73,7 +77,8 @@ public interface Parser0Constants {
     "\"\\t\"",
     "\"\\r\"",
     "\"\\n\"",
-    "\"new\"",
+    "\"~\"",
+    "\"mut\"",
     "\"if\"",
     "\"else\"",
     "\"while\"",
@@ -97,6 +102,7 @@ public interface Parser0Constants {
     "\")\"",
     "\"=\"",
     "\";\"",
+    "\";;\"",
     "\"{\"",
     "\"}\"",
   };

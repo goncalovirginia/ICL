@@ -3,8 +3,10 @@ package ast;
 import compiler.CodeBlock;
 import compiler.Coordinates;
 import environment.Environment;
+import exceptions.TypeErrorException;
 import exceptions.UndeclaredIdentifierException;
-import types.IValue;
+import types.Type;
+import types.Value;
 
 public class ASTId implements ASTNode {
 	
@@ -15,7 +17,7 @@ public class ASTId implements ASTNode {
 	}
 	
 	@Override
-	public IValue eval(Environment<IValue> e) throws UndeclaredIdentifierException {
+	public Value eval(Environment<Value> e) throws UndeclaredIdentifierException {
 		return e.find(id);
 	}
 	
@@ -26,10 +28,15 @@ public class ASTId implements ASTNode {
 		c.emit("aload 0");
 		
 		for (int i = e.depth(); i > coordinates.frame(); i--) {
-			c.emit("getfield frame" + i + "/parent Lframe" + (i-1) + ";");
+			c.emit("getfield frame" + i + "/parent Lframe" + (i - 1) + ";");
 		}
 		
 		c.emit("getfield frame" + coordinates.frame() + "/v" + coordinates.slot() + " I");
+	}
+	
+	@Override
+	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
+		return null;
 	}
 	
 }

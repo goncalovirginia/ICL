@@ -1,7 +1,7 @@
 package types;
 
-public class VBool implements IValue {
-
+public class VBool implements Value {
+	
 	private final boolean v;
 	
 	public VBool(boolean v) {
@@ -21,5 +21,5 @@ public class VBool implements IValue {
 	public boolean equals(Object obj) {
 		return v == ((VBool) obj).v;
 	}
-
+	
 }

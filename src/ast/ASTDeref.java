@@ -6,20 +6,22 @@ import environment.Environment;
 import exceptions.IDDeclaredTwiceException;
 import exceptions.TypeErrorException;
 import exceptions.UndeclaredIdentifierException;
+import types.TCell;
 import types.Type;
+import types.VCell;
 import types.Value;
 
-public class ASTPrintln implements ASTNode {
+public class ASTDeref implements ASTNode {
 	
-	private final ASTNode v;
+	private final ASTNode n;
 	
-	public ASTPrintln(ASTNode v) {
-		this.v = v;
+	public ASTDeref(ASTNode n) {
+		this.n = n;
 	}
 	
 	@Override
 	public Value eval(Environment<Value> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
-		return v.eval(e);
+		return ((VCell) n.eval(e)).getValue();
 	}
 	
 	@Override
@@ -29,6 +31,11 @@ public class ASTPrintln implements ASTNode {
 	
 	@Override
 	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
-		return null;
+		if (n.typeCheck(e) instanceof TCell) {
+			return ((TCell) n.typeCheck(e)).getReferenceType();
+		}
+		
+		throw new TypeErrorException("Illegal argument type in dereference operation.");
 	}
+	
 }

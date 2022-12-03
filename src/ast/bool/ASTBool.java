@@ -5,9 +5,11 @@ import compiler.CodeBlock;
 import compiler.Coordinates;
 import environment.Environment;
 import exceptions.IDDeclaredTwiceException;
+import exceptions.TypeErrorException;
 import exceptions.UndeclaredIdentifierException;
-import types.IValue;
+import types.Type;
 import types.VBool;
+import types.Value;
 
 public class ASTBool implements ASTNode {
 	
@@ -17,18 +19,19 @@ public class ASTBool implements ASTNode {
 		this.v = v;
 	}
 	
-	public ASTBool(int v) {
-		this.v = v != 0;
-	}
-	
 	@Override
-	public IValue eval(Environment<IValue> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
+	public Value eval(Environment<Value> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
 		return new VBool(v);
 	}
 	
 	@Override
 	public void compile(CodeBlock c, Environment<Coordinates> e) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
 	
+	}
+	
+	@Override
+	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
+		return null;
 	}
 	
 }

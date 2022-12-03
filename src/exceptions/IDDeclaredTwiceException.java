@@ -2,8 +2,8 @@ package exceptions;
 
 public class IDDeclaredTwiceException extends Exception {
 	
-	public IDDeclaredTwiceException(String id) {
-		super(id);
+	public IDDeclaredTwiceException(String message) {
+		super(message);
 	}
 	
 }
