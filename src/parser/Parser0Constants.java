@@ -15,57 +15,59 @@ public interface Parser0Constants {
   /** RegularExpression Id. */
   int MUT = 6;
   /** RegularExpression Id. */
-  int IF = 7;
+  int NEW = 7;
   /** RegularExpression Id. */
-  int ELSE = 8;
+  int IF = 8;
   /** RegularExpression Id. */
-  int WHILE = 9;
+  int ELSE = 9;
   /** RegularExpression Id. */
-  int PRINTLN = 10;
+  int WHILE = 10;
   /** RegularExpression Id. */
-  int TRUE = 11;
+  int PRINTLN = 11;
   /** RegularExpression Id. */
-  int FALSE = 12;
+  int TRUE = 12;
   /** RegularExpression Id. */
-  int NOT = 13;
+  int FALSE = 13;
   /** RegularExpression Id. */
-  int EQ = 14;
+  int NOT = 14;
   /** RegularExpression Id. */
-  int GR = 15;
+  int EQ = 15;
   /** RegularExpression Id. */
-  int GREQ = 16;
+  int GR = 16;
   /** RegularExpression Id. */
-  int AND = 17;
+  int GREQ = 17;
   /** RegularExpression Id. */
-  int OR = 18;
+  int AND = 18;
   /** RegularExpression Id. */
-  int LET = 19;
+  int OR = 19;
   /** RegularExpression Id. */
-  int ID = 20;
+  int LET = 20;
   /** RegularExpression Id. */
-  int NUM = 21;
+  int ID = 21;
   /** RegularExpression Id. */
-  int PLUS = 22;
+  int NUM = 22;
   /** RegularExpression Id. */
-  int MINUS = 23;
+  int PLUS = 23;
   /** RegularExpression Id. */
-  int MULT = 24;
+  int MINUS = 24;
   /** RegularExpression Id. */
-  int DIV = 25;
+  int MULT = 25;
   /** RegularExpression Id. */
-  int LPAR = 26;
+  int DIV = 26;
   /** RegularExpression Id. */
-  int RPAR = 27;
+  int LPAR = 27;
   /** RegularExpression Id. */
-  int BIND = 28;
+  int RPAR = 28;
   /** RegularExpression Id. */
-  int SEMI = 29;
+  int BIND = 29;
   /** RegularExpression Id. */
-  int DSEMI = 30;
+  int SEMI = 30;
   /** RegularExpression Id. */
-  int LCBRA = 31;
+  int DSEMI = 31;
   /** RegularExpression Id. */
-  int RCBRA = 32;
+  int LCBRA = 32;
+  /** RegularExpression Id. */
+  int RCBRA = 33;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -79,6 +81,7 @@ public interface Parser0Constants {
     "\"\\n\"",
     "\"~\"",
     "\"mut\"",
+    "\"new\"",
     "\"if\"",
     "\"else\"",
     "\"while\"",

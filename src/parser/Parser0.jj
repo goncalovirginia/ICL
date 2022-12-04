@@ -253,6 +253,8 @@ ASTNode Fact() :
 	<LCBRA> t = Scope() <RCBRA>
 	|
 	<WHILE> t = While()
+	|
+	<IF> t = If()
 	)
 	{
 		return t;
@@ -272,6 +274,7 @@ ASTNode Scope() :
 		if (m != null && n == null || m == null && n != null)
 			val = new ASTNew(val);
 		bindings.put(id.image, val);
+		m = n = null;
 	}
 	) *
 	(
@@ -290,5 +293,17 @@ ASTNode While() :
 	condition = BoolAdd() <LCBRA> body = Start() <RCBRA>
 	{
         return new ASTWhile(condition, body);
+    }
+}
+
+ASTNode If() :
+{
+	ASTNode condition, ifBody, elseBody = null;
+}
+{
+	condition = BoolAdd() <LCBRA> ifBody = Start() <RCBRA>
+	( <ELSE> <LCBRA> elseBody = Start() <RCBRA> ) ?
+	{
+        return new ASTIf(condition, ifBody, elseBody);
     }
 }
