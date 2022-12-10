@@ -28,6 +28,11 @@ public class ASTExpSeq extends ASTPair {
 	
 	@Override
 	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
-		return null;
+		Type t1 = l.typeCheck();
+		try {
+			return r.typeCheck();
+		} catch (TypeErrorException err) {
+			throw new TypeErrorException();
+		}
 	}
 }

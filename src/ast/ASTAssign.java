@@ -28,7 +28,11 @@ public class ASTAssign extends ASTPair {
 	
 	@Override
 	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
-		return null;
+		Type t1 = l.typeCheck(e);
+		Type t2 = R.typeCheck(e);
+		if (t1 == (TCell) t2.getReferenceType())
+			return t2;
+		throw TypeErrorException();
 	}
 	
 }

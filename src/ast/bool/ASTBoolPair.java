@@ -17,7 +17,7 @@ public abstract class ASTBoolPair extends ASTPair {
 	@Override
 	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
 		if (l.typeCheck(e) instanceof TBool && r.typeCheck(e) instanceof TBool) {
-			return new TInt();
+			return new TBool();
 		}
 		
 		throw new TypeErrorException("Illegal argument type in boolean operation.");

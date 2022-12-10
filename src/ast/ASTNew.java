@@ -30,7 +30,13 @@ public class ASTNew implements ASTNode {
 	
 	@Override
 	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
-		return null;
+		Type t = exp.typeCheck(e);
+		try {
+			return ((TCell) t).getReferenceType();
+		} catch (TypeErrorException err) {
+			throw new TypeErrorException();
+		}
+		
 	}
 	
 }

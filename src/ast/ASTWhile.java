@@ -34,6 +34,15 @@ public class ASTWhile implements ASTNode {
 	
 	@Override
 	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
-		return null;
+		Type t1 = condition.typeCheck();
+		if (t1 instanceof VBool) {
+			try {
+				return body.typeCheck();
+			} catch (TypeErrorException err) {
+				throw new TypeErrorException();
+			}
+		} else {
+			throw new TypeErrorException();
+		}
 	}
 }

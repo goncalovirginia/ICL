@@ -36,7 +36,7 @@ public class ASTId implements ASTNode {
 	
 	@Override
 	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
-		return null;
+		return e.find(id);
 	}
 	
 }

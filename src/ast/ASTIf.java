@@ -32,6 +32,21 @@ public class ASTIf implements ASTNode {
 	
 	@Override
 	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
-		return null;
+		Value ifcond = condition.eval(e);
+		if (ifcond instanceof VBool) {
+			try {
+				Type ifB = ifBody.typeCheck(e);
+				Type elseB = elseBody.typeCheck(e);
+				if (ifB != elseB)
+					throw new TypeErrorException();
+				else
+					return elseB;
+				} catch (TypeErrorException err) {
+					throw new TypeErrorException();
+				}
+		}
+		throw new TypeErrorException();
+
+		
 	}
 }

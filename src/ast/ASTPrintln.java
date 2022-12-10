@@ -29,6 +29,15 @@ public class ASTPrintln implements ASTNode {
 	
 	@Override
 	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
-		return null;
+		Type t1 = v.typeCheck(e);
+		
+		if(t1 instanceof TBool)
+            return new TBool();
+        else if(t1 instanceof TInt)
+            return new TInt();
+        else if(t1 instanceof TCell)
+            return new TCell(t1);
+        else
+            throw new TypeErrorException();
 	}
 }
