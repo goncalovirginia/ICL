@@ -32,7 +32,12 @@ public class ASTNeg implements ASTNode {
 	
 	@Override
 	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
-		return null;
+		Type t1 = t1.typecheck(e);
+
+        if(t1 instanceof TInt)
+            return t1;
+        else
+            throw new TypeErrorException();
 	}
 	
 }

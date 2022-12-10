@@ -29,7 +29,7 @@ public class ASTNum implements ASTNode {
 	
 	@Override
 	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
-		return null;
+		return new TInt();
 	}
 	
 }

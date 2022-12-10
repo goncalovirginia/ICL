@@ -58,7 +58,20 @@ public class ASTScope implements ASTNode {
 	
 	@Override
 	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
-		return null;
+		try {
+			for (Entry<String, ASTNode> binding : bindings.entrySet()) {
+				binding.getValue().typeCheck(e);
+			}
+		} catch (TypeErrorException err) {
+			throw new TypeErrorException();
+		}
+
+		Environment<Type> localEnv = e.beginScope();
+		for (Entry<String, ASTNode> binding : bindings.entrySet()) {
+			localEnv.assoc(binding.getKey(), binding.getValue().typeCheck(e));
+		}
+		Type t = body.typeCheck(localEnv);
+		e = localEnv.endScope();
+		return t;
 	}
-	
 }
