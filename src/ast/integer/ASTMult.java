@@ -23,7 +23,7 @@ public class ASTMult extends ASTIntPair {
 	@Override
 	public void compile(CodeBlock c, Environment<Coordinates> e, Environment<Type> tE) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
 		l.compile(c, e, tE);
-		r.compile(c, e, TE);
+		r.compile(c, e, tE);
 		c.emit("imul");
 	}
 	
