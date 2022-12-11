@@ -14,9 +14,11 @@ import types.Value;
 public class ASTDeref implements ASTNode {
 	
 	private final ASTNode n;
+	private TCell t;
 	
 	public ASTDeref(ASTNode n) {
 		this.n = n;
+		t = null;
 	}
 	
 	@Override
@@ -26,13 +28,22 @@ public class ASTDeref implements ASTNode {
 	
 	@Override
 	public void compile(CodeBlock c, Environment<Coordinates> e, Environment<Type> tE) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
-	
+		String refName = t.getReferenceName();
+		n.compile(c, e, tE);
+		if (refName.equals("bool"))
+			c.emit("getfield " + refName + "/v Z");
+		else if (refName.equals("int"))
+			c.emit("getfield " + refName + "/v I");
+		else
+			c.emit("getfield " + refName + "/v " + refName + ";");
 	}
 	
 	@Override
 	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
-		if (n.typeCheck(e) instanceof TCell) {
-			return ((TCell) n.typeCheck(e)).getReferenceType();
+		Type t = n.typeCheck(e);
+		if (t instanceof TCell) {
+			this.t = t;
+			return t.getReferenceType();
 		}
 		
 		throw new TypeErrorException("Illegal argument type in dereference operation.");
