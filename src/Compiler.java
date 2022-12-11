@@ -19,7 +19,10 @@ public class Compiler {
 			new Parser0(new FileInputStream(args[0]));
 			ASTNode ast = Parser0.Start();
 			CodeBlock codeBlock = new CodeBlock();
-			ast.compile(codeBlock, new Environment<>());
+			Environment<Type> tE = new Environment<Type>();
+			ast.typeCheck(tE);
+			ast.eval(new Environment<Value>());
+			ast.compile(codeBlock, new Environment<Coordinates>(), tE);
 			compileJasmin(args[1], codeBlock.dump());
 			System.out.println("Compiled successfully.");
 		}

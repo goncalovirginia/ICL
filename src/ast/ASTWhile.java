@@ -28,8 +28,17 @@ public class ASTWhile implements ASTNode {
 	}
 	
 	@Override
-	public void compile(CodeBlock c, Environment<Coordinates> e) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
-	
+	public void compile(CodeBlock c, Environment<Coordinates> e, Environment<Type> tE) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
+		c.emit("L1: ");
+		condition.compile(c, e, tE);
+
+		c.emit("ifeq L2");
+		body.compile(e, c, tE);
+		c.emit("pop"); //is this really needed?
+		c.emit("goto L1");
+
+		c.emit("L2:");
+
 	}
 	
 	@Override

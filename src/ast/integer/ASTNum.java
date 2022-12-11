@@ -23,7 +23,7 @@ public class ASTNum implements ASTNode {
 	}
 	
 	@Override
-	public void compile(CodeBlock c, Environment<Coordinates> e) {
+	public void compile(CodeBlock c, Environment<Coordinates> e, Environment<Type> tE) {
 		c.emit("sipush " + val);
 	}
 	

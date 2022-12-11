@@ -13,7 +13,7 @@ public interface ASTNode {
 	
 	Value eval(Environment<Value> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException;
 	
-	void compile(CodeBlock c, Environment<Coordinates> e) throws IDDeclaredTwiceException, UndeclaredIdentifierException;
+	void compile(CodeBlock c, Environment<Coordinates> e, Environment<Type> tE) throws IDDeclaredTwiceException, UndeclaredIdentifierException;
 	
 	Type typeCheck(Environment<Type> e) throws TypeErrorException;
 	

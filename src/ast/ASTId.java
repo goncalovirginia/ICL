@@ -22,7 +22,7 @@ public class ASTId implements ASTNode {
 	}
 	
 	@Override
-	public void compile(CodeBlock c, Environment<Coordinates> e) throws UndeclaredIdentifierException {
+	public void compile(CodeBlock c, Environment<Coordinates> e, Environment<Type> tE) throws UndeclaredIdentifierException {
 		Coordinates coordinates = e.find(id);
 		
 		c.emit("aload 0");

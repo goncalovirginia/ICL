@@ -26,8 +26,18 @@ public class ASTIf implements ASTNode {
 	}
 	
 	@Override
-	public void compile(CodeBlock c, Environment<Coordinates> e) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
-	
+	public void compile(CodeBlock c, Environment<Coordinates> e, Environment<Type> tE) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
+		condition.compile(c, e, tE);
+		c.emit("ifeq L1");
+
+		ifBody.compile(c, e, tE);
+		c.emit("goto L2");
+
+		c.emit("L1:");
+		if (elseBody != null)
+			elseBody.compile(c, e, tE);
+
+		c.emit("L2:");
 	}
 	
 	@Override

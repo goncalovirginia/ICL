@@ -35,7 +35,7 @@ public class ASTScope implements ASTNode {
 	}
 	
 	@Override
-	public void compile(CodeBlock c, Environment<Coordinates> e) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
+	public void compile(CodeBlock c, Environment<Coordinates> e, Environment<Type> tE) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
 		Environment<Coordinates> eCurr = e.beginScope();
 		
 		Frame frame = new Frame(eCurr.depth());
@@ -58,6 +58,7 @@ public class ASTScope implements ASTNode {
 	
 	@Override
 	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
+		//Is a try catch even necessary if the typeCheck already throws its own TypeErrorException?
 		try {
 			for (Entry<String, ASTNode> binding : bindings.entrySet()) {
 				binding.getValue().typeCheck(e);
@@ -70,6 +71,7 @@ public class ASTScope implements ASTNode {
 		for (Entry<String, ASTNode> binding : bindings.entrySet()) {
 			localEnv.assoc(binding.getKey(), binding.getValue().typeCheck(e));
 		}
+
 		Type t = body.typeCheck(localEnv);
 		e = localEnv.endScope();
 		return t;
