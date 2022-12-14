@@ -7,6 +7,7 @@ import exceptions.IDDeclaredTwiceException;
 import exceptions.TypeErrorException;
 import exceptions.UndeclaredIdentifierException;
 import types.Type;
+import types.VBool;
 import types.Value;
 
 public class ASTPrintln implements ASTNode {
@@ -18,12 +19,13 @@ public class ASTPrintln implements ASTNode {
 	}
 	
 	@Override
-	public Value eval(Environment<Value> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
-		return v.eval(e);
+	public Value eval(Environment<Value> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException, TypeErrorException {
+		System.out.println(v.eval(e));
+		return new VBool(true);
 	}
 	
 	@Override
-	public void compile(CodeBlock c, Environment<Coordinates> e, Environment<Type> tE) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
+	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
 	
 	}
 	
@@ -31,13 +33,13 @@ public class ASTPrintln implements ASTNode {
 	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
 		Type t1 = v.typeCheck(e);
 		
-		if(t1 instanceof TBool)
-            return new TBool();
-        else if(t1 instanceof TInt)
-            return new TInt();
-        else if(t1 instanceof TCell)
-            return new TCell(t1);
-        else
-            throw new TypeErrorException();
+		if (t1 instanceof TBool)
+			return new TBool();
+		else if (t1 instanceof TInt)
+			return new TInt();
+		else if (t1 instanceof TCell)
+			return new TCell(t1);
+		else
+			throw new TypeErrorException();
 	}
 }

@@ -24,7 +24,7 @@ public class ASTScope implements ASTNode {
 	}
 	
 	@Override
-	public Value eval(Environment<Value> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
+	public Value eval(Environment<Value> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException, TypeErrorException {
 		Environment<Value> eCurr = e.beginScope();
 		
 		for (Entry<String, ASTNode> binding : bindings.entrySet()) {
@@ -35,8 +35,8 @@ public class ASTScope implements ASTNode {
 	}
 	
 	@Override
-	public void compile(CodeBlock c, Environment<Coordinates> e, Environment<Type> tE) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
-		Environment<Coordinates> eCurr = e.beginScope();
+	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
+		Environment<Coordinates> eCurr = eC.beginScope();
 		
 		Frame frame = new Frame(eCurr.depth());
 		frame.generateClass(bindings.size());
@@ -63,15 +63,16 @@ public class ASTScope implements ASTNode {
 			for (Entry<String, ASTNode> binding : bindings.entrySet()) {
 				binding.getValue().typeCheck(e);
 			}
-		} catch (TypeErrorException err) {
+		}
+		catch (TypeErrorException err) {
 			throw new TypeErrorException();
 		}
-
+		
 		Environment<Type> localEnv = e.beginScope();
 		for (Entry<String, ASTNode> binding : bindings.entrySet()) {
 			localEnv.assoc(binding.getKey(), binding.getValue().typeCheck(e));
 		}
-
+		
 		Type t = body.typeCheck(localEnv);
 		e = localEnv.endScope();
 		return t;

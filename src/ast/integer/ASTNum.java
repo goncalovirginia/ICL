@@ -5,6 +5,7 @@ import compiler.CodeBlock;
 import compiler.Coordinates;
 import environment.Environment;
 import exceptions.TypeErrorException;
+import types.TInt;
 import types.Type;
 import types.VInt;
 import types.Value;
@@ -23,7 +24,7 @@ public class ASTNum implements ASTNode {
 	}
 	
 	@Override
-	public void compile(CodeBlock c, Environment<Coordinates> e, Environment<Type> tE) {
+	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) {
 		c.emit("sipush " + val);
 	}
 	

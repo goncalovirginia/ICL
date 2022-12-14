@@ -1,3 +1,5 @@
 # Project exclude paths
 /out/
 /javacc-javacc-7.0.10/
+/jasmin-2.4/
+/.idea/

@@ -21,22 +21,28 @@ public class ASTIf implements ASTNode {
 	}
 	
 	@Override
-	public Value eval(Environment<Value> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
-		return ((VBool) condition.eval(e)).getValue() ? ifBody.eval(e) : elseBody.eval(e);
+	public Value eval(Environment<Value> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException, TypeErrorException {
+		Value conditionV = condition.eval(e);
+		
+		if (!(conditionV instanceof VBool)) {
+			throw new TypeErrorException("if requires condition to be of type boolean.");
+		}
+		
+		return ((VBool) conditionV).getValue() ? ifBody.eval(e) : elseBody.eval(e);
 	}
 	
 	@Override
-	public void compile(CodeBlock c, Environment<Coordinates> e, Environment<Type> tE) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
-		condition.compile(c, e, tE);
+	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
+		condition.compile(c, eC, eT);
 		c.emit("ifeq L1");
-
-		ifBody.compile(c, e, tE);
+		
+		ifBody.compile(c, eC, eT);
 		c.emit("goto L2");
-
+		
 		c.emit("L1:");
 		if (elseBody != null)
-			elseBody.compile(c, e, tE);
-
+			elseBody.compile(c, eC, eT);
+		
 		c.emit("L2:");
 	}
 	
@@ -51,12 +57,13 @@ public class ASTIf implements ASTNode {
 					throw new TypeErrorException();
 				else
 					return elseB;
-				} catch (TypeErrorException err) {
-					throw new TypeErrorException();
-				}
+			}
+			catch (TypeErrorException err) {
+				throw new TypeErrorException();
+			}
 		}
 		throw new TypeErrorException();
-
+		
 		
 	}
 }

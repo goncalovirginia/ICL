@@ -14,22 +14,26 @@ import types.Value;
 public class ASTDeref implements ASTNode {
 	
 	private final ASTNode n;
-	private TCell t;
 	
 	public ASTDeref(ASTNode n) {
 		this.n = n;
-		t = null;
 	}
 	
 	@Override
-	public Value eval(Environment<Value> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
-		return ((VCell) n.eval(e)).getValue();
+	public Value eval(Environment<Value> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException, TypeErrorException {
+		Value v = n.eval(e);
+		
+		if (!(v instanceof VCell)) {
+			throw new TypeErrorException("~ operation requires type mutable reference.");
+		}
+		
+		return ((VCell) v).getValue();
 	}
 	
 	@Override
-	public void compile(CodeBlock c, Environment<Coordinates> e, Environment<Type> tE) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
+	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
 		String refName = t.getReferenceName();
-		n.compile(c, e, tE);
+		n.compile(c, eC, eT);
 		if (refName.equals("bool"))
 			c.emit("getfield " + refName + "/v Z");
 		else if (refName.equals("int"))
@@ -41,12 +45,12 @@ public class ASTDeref implements ASTNode {
 	@Override
 	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
 		Type t = n.typeCheck(e);
-		if (t instanceof TCell) {
-			this.t = t;
-			return t.getReferenceType();
+		
+		if (!(t instanceof TCell)) {
+			throw new TypeErrorException("~ operation requires type mutable reference.");
 		}
 		
-		throw new TypeErrorException("Illegal argument type in dereference operation.");
+		return ((TCell) t).getReferenceType();
 	}
 	
 }

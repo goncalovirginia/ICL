@@ -7,39 +7,42 @@ import environment.Environment;
 import exceptions.IDDeclaredTwiceException;
 import exceptions.TypeErrorException;
 import exceptions.UndeclaredIdentifierException;
-import types.Type;
-import types.VBool;
-import types.Value;
+import types.*;
 
 public class ASTNot implements ASTNode {
 	
-	private final ASTNode v;
+	private final ASTNode n;
 	
-	public ASTNot(ASTNode v) {
-		this.v = v;
+	public ASTNot(ASTNode n) {
+		this.n = n;
 	}
 	
 	@Override
-	public Value eval(Environment<Value> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
-		return new VBool(!((VBool) v.eval(e)).getValue());
+	public Value eval(Environment<Value> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException, TypeErrorException {
+		Value v = n.eval(e);
+		
+		if (!(v instanceof VBool)) {
+			throw new TypeErrorException("! requires type boolean.");
+		}
+		
+		return new VBool(!((VBool) v).getValue());
 	}
 	
 	@Override
-	public void compile(CodeBlock c, Environment<Coordinates> e, Environment<Type> tE) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
-		if (v)
-			c.emit("sipush " + 0);
-		else
-			c.emit("sipush " + 1);
+	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
+		n.compile(c, eC, eT);
+		c.emit("sipush 1");
+		c.emit("isub");
 	}
 	
 	@Override
 	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
 		Type t1 = t1.typecheck(e);
-
-        if(t1 instanceof TBool)
-            return t1;
-        else
-            throw new TypeErrorException();
+		
+		if (t1 instanceof TBool)
+			return t1;
+		else
+			throw new TypeErrorException();
 	}
 	
 }

@@ -15,11 +15,10 @@ public abstract class ASTIntPair extends ASTPair {
 	
 	@Override
 	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
-		if (l.typeCheck(e) instanceof TInt && r.typeCheck(e) instanceof TInt) {
-			return new TInt();
+		if (!(l.typeCheck(e) instanceof TInt && r.typeCheck(e) instanceof TInt)) {
+			throw new TypeErrorException("Both arguments must be of type int.");
 		}
-		
-		throw new TypeErrorException("Illegal argument type in integer operation.");
+		return new TInt();
 	}
 	
 }

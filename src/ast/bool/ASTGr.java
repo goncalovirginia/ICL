@@ -6,7 +6,9 @@ import compiler.CodeBlock;
 import compiler.Coordinates;
 import environment.Environment;
 import exceptions.IDDeclaredTwiceException;
+import exceptions.TypeErrorException;
 import exceptions.UndeclaredIdentifierException;
+import types.Type;
 import types.VBool;
 import types.VInt;
 import types.Value;
@@ -18,7 +20,13 @@ public class ASTGr extends ASTIntPair {
 	}
 	
 	@Override
-	public Value eval(Environment<Value> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
+	public Value eval(Environment<Value> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException, TypeErrorException {
+		Value lv = l.eval(e), rv = r.eval(e);
+		
+		if (!(lv instanceof VInt && rv instanceof VInt)) {
+			throw new TypeErrorException("> requires both operands to be of type int.");
+		}
+		
 		return new VBool(((VInt) l.eval(e)).getValue() > ((VInt) r.eval(e)).getValue());
 	}
 	
@@ -27,7 +35,7 @@ public class ASTGr extends ASTIntPair {
 		
 		l.compile(c, e, tE);
 		r.compile(c, e, tE);
-
+		
 		c.emit("isub");
 		c.emit("ifgt L1");
 		c.emit("sipush 0");

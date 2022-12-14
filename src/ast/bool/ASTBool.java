@@ -7,6 +7,7 @@ import environment.Environment;
 import exceptions.IDDeclaredTwiceException;
 import exceptions.TypeErrorException;
 import exceptions.UndeclaredIdentifierException;
+import types.TBool;
 import types.Type;
 import types.VBool;
 import types.Value;
@@ -25,21 +26,13 @@ public class ASTBool implements ASTNode {
 	}
 	
 	@Override
-	public void compile(CodeBlock c, Environment<Coordinates> e, Environment<Type> tE) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
-
-		if (v)
-			c.emit("sipush " + 1);
-		else
-			c.emit("sipush " + 0);
-	
+	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
+		c.emit("sipush " + (v ? 1 : 0));
 	}
 	
 	@Override
 	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
-		if (((VBoll)v).typeCheck(e) instanceof TBool)
-			return new TBool();
-		else
-			throw new TypeErrorException();
+		return new TBool();
 	}
 	
 }

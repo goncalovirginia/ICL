@@ -20,25 +20,30 @@ public class ASTWhile implements ASTNode {
 	}
 	
 	@Override
-	public Value eval(Environment<Value> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
+	public Value eval(Environment<Value> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException, TypeErrorException {
+		if (!(condition.eval(e) instanceof VBool)) {
+			throw new TypeErrorException("while requires condition to be of type boolean.");
+		}
+		
 		while (((VBool) condition.eval(e)).getValue()) {
 			body.eval(e);
 		}
+		
 		return new VBool(true);
 	}
 	
 	@Override
-	public void compile(CodeBlock c, Environment<Coordinates> e, Environment<Type> tE) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
+	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
 		c.emit("L1: ");
-		condition.compile(c, e, tE);
-
+		condition.compile(c, eC, eT);
+		
 		c.emit("ifeq L2");
-		body.compile(e, c, tE);
+		body.compile(eC, c, eT);
 		c.emit("pop"); //is this really needed?
 		c.emit("goto L1");
-
+		
 		c.emit("L2:");
-
+		
 	}
 	
 	@Override
@@ -47,10 +52,12 @@ public class ASTWhile implements ASTNode {
 		if (t1 instanceof VBool) {
 			try {
 				return body.typeCheck();
-			} catch (TypeErrorException err) {
+			}
+			catch (TypeErrorException err) {
 				throw new TypeErrorException();
 			}
-		} else {
+		}
+		else {
 			throw new TypeErrorException();
 		}
 	}

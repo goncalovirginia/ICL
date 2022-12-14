@@ -22,12 +22,12 @@ public class ASTId implements ASTNode {
 	}
 	
 	@Override
-	public void compile(CodeBlock c, Environment<Coordinates> e, Environment<Type> tE) throws UndeclaredIdentifierException {
-		Coordinates coordinates = e.find(id);
+	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws UndeclaredIdentifierException {
+		Coordinates coordinates = eC.find(id);
 		
 		c.emit("aload 0");
 		
-		for (int i = e.depth(); i > coordinates.frame(); i--) {
+		for (int i = eC.depth(); i > coordinates.frame(); i--) {
 			c.emit("getfield frame" + i + "/parent Lframe" + (i - 1) + ";");
 		}
 		
@@ -35,7 +35,7 @@ public class ASTId implements ASTNode {
 	}
 	
 	@Override
-	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
+	public Type typeCheck(Environment<Type> e) throws UndeclaredIdentifierException {
 		return e.find(id);
 	}
 	

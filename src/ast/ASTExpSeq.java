@@ -16,25 +16,20 @@ public class ASTExpSeq extends ASTPair {
 	}
 	
 	@Override
-	public Value eval(Environment<Value> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
+	public Value eval(Environment<Value> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException, TypeErrorException {
 		l.eval(e);
 		return r.eval(e);
 	}
 	
 	@Override
-	public void compile(CodeBlock c, Environment<Coordinates> e, Environment<Type> tE) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
-		l.compile(c, e, tE);
-		r.compile(c, e, tE);
-	
+	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
+		l.compile(c, eC, eT);
+		r.compile(c, eC, eT);
 	}
 	
 	@Override
 	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
-		Type t1 = l.typeCheck();
-		try {
-			return r.typeCheck();
-		} catch (TypeErrorException err) {
-			throw new TypeErrorException();
-		}
+		l.typeCheck(e);
+		return r.typeCheck(e);
 	}
 }

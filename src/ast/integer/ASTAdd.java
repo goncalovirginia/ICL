@@ -5,9 +5,11 @@ import compiler.CodeBlock;
 import compiler.Coordinates;
 import environment.Environment;
 import exceptions.IDDeclaredTwiceException;
+import exceptions.TypeErrorException;
 import exceptions.UndeclaredIdentifierException;
 import types.VInt;
 import types.Value;
+import types.Type;
 
 public class ASTAdd extends ASTIntPair {
 	
@@ -16,14 +18,20 @@ public class ASTAdd extends ASTIntPair {
 	}
 	
 	@Override
-	public Value eval(Environment<Value> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException {
-		return new VInt(((VInt) l.eval(e)).getValue() + ((VInt) r.eval(e)).getValue());
+	public Value eval(Environment<Value> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException, TypeErrorException {
+		Value lv = l.eval(e), rv = r.eval(e);
+		
+		if (!(lv instanceof VInt && rv instanceof VInt)) {
+			throw new TypeErrorException("+ requires both operands to be of type int.");
+		}
+		
+		return new VInt(((VInt) lv).getValue() + ((VInt) rv).getValue());
 	}
 	
 	@Override
-	public void compile(CodeBlock c, Environment<Coordinates> e, Environment<Type> tE) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
-		l.compile(c, e, tE);
-		r.compile(c, e, tE);
+	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
+		l.compile(c, eC, eT);
+		r.compile(c, eC, eT);
 		c.emit("iadd");
 	}
 	

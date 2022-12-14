@@ -2,6 +2,7 @@ import ast.ASTNode;
 import compiler.CodeBlock;
 import environment.Environment;
 import parser.Parser0;
+import types.Type;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -19,10 +20,10 @@ public class Compiler {
 			new Parser0(new FileInputStream(args[0]));
 			ASTNode ast = Parser0.Start();
 			CodeBlock codeBlock = new CodeBlock();
-			Environment<Type> tE = new Environment<Type>();
+			Environment<Type> tE = new Environment<>();
 			ast.typeCheck(tE);
-			ast.eval(new Environment<Value>());
-			ast.compile(codeBlock, new Environment<Coordinates>(), tE);
+			ast.eval(new Environment<>());
+			ast.compile(codeBlock, new Environment<>(), tE);
 			compileJasmin(args[1], codeBlock.dump());
 			System.out.println("Compiled successfully.");
 		}
@@ -32,9 +33,8 @@ public class Compiler {
 	}
 	
 	private static void compileJasmin(String target, String code) throws IOException {
-		String header = new String(new FileInputStream("Header.j").readAllBytes()).replaceFirst("Header", target);
-		String output = header.replaceFirst("\t; START\n", code);
-		new PrintStream(target + ".j").print(output);
+		String jasminCode = new String(new FileInputStream("Header.j").readAllBytes()).replaceFirst("Header", target).replaceFirst("\t; START\n", code);
+		new PrintStream(target + ".j").print(jasminCode);
 		Runtime.getRuntime().exec("java -jar .\\jasmin-2.4\\jasmin.jar " + target + ".j");
 	}
 	

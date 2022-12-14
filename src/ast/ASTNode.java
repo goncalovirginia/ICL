@@ -11,10 +11,10 @@ import types.Value;
 
 public interface ASTNode {
 	
-	Value eval(Environment<Value> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException;
+	Value eval(Environment<Value> e) throws UndeclaredIdentifierException, IDDeclaredTwiceException, TypeErrorException;
 	
-	void compile(CodeBlock c, Environment<Coordinates> e, Environment<Type> tE) throws IDDeclaredTwiceException, UndeclaredIdentifierException;
+	void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException;
 	
-	Type typeCheck(Environment<Type> e) throws TypeErrorException;
+	Type typeCheck(Environment<Type> e) throws TypeErrorException, UndeclaredIdentifierException;
 	
 }
