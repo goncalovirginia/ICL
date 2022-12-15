@@ -3,7 +3,6 @@ package ast;
 import compiler.CodeBlock;
 import compiler.Coordinates;
 import environment.Environment;
-import exceptions.TypeErrorException;
 import exceptions.UndeclaredIdentifierException;
 import types.Type;
 import types.Value;

@@ -47,9 +47,8 @@ public class ASTAssign extends ASTPair {
 	}
 	
 	@Override
-	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
-		Type lt = l.typeCheck(e);
-		Type rt = r.typeCheck(e);
+	public Type typeCheck(Environment<Type> e) throws TypeErrorException, UndeclaredIdentifierException, IDDeclaredTwiceException {
+		Type lt = l.typeCheck(e), rt = r.typeCheck(e);
 		
 		if (!(lt instanceof TCell)) {
 			throw new TypeErrorException("= requires left operand to be of type mutable reference.");

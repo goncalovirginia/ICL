@@ -14,7 +14,6 @@ public class Parser0 implements Parser0Constants {
 	static final public ASTNode Start() throws ParseException {
 		ASTNode t;
 		t = Bind();
-		label_1:
 		while (true) {
 			if (((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) == SEMI) {
 			}
@@ -40,7 +39,6 @@ public class Parser0 implements Parser0Constants {
 	static final public ASTNode Bind() throws ParseException {
 		ASTNode t1, t2;
 		t1 = BoolAdd();
-		label_2:
 		while (true) {
 			if (((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) == BIND) {
 			}
@@ -61,7 +59,6 @@ public class Parser0 implements Parser0Constants {
 	static final public ASTNode BoolAdd() throws ParseException {
 		ASTNode t1, t2;
 		t1 = BoolMult();
-		label_3:
 		while (true) {
 			if (((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) == OR) {
 			}
@@ -82,7 +79,6 @@ public class Parser0 implements Parser0Constants {
 	static final public ASTNode BoolMult() throws ParseException {
 		ASTNode t1, t2;
 		t1 = RelOp();
-		label_4:
 		while (true) {
 			if (((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) == AND) {
 			}
@@ -296,7 +292,6 @@ public class Parser0 implements Parser0Constants {
 		Token id, m = null, n = null;
 		ASTNode val, body = null;
 		Map<String, ASTNode> bindings = new HashMap<>();
-		label_6:
 		while (true) {
 			if (((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) == LET) {
 			}

@@ -7,9 +7,9 @@ import environment.Environment;
 import exceptions.IDDeclaredTwiceException;
 import exceptions.TypeErrorException;
 import exceptions.UndeclaredIdentifierException;
+import types.Type;
 import types.VInt;
 import types.Value;
-import types.Type;
 
 public class ASTMult extends ASTIntPair {
 	

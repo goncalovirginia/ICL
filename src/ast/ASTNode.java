@@ -15,6 +15,6 @@ public interface ASTNode {
 	
 	void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException;
 	
-	Type typeCheck(Environment<Type> e) throws TypeErrorException, UndeclaredIdentifierException;
+	Type typeCheck(Environment<Type> e) throws TypeErrorException, UndeclaredIdentifierException, IDDeclaredTwiceException;
 	
 }

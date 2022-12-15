@@ -38,7 +38,7 @@ public class ASTWhile implements ASTNode {
 		condition.compile(c, eC, eT);
 		
 		c.emit("ifeq L2");
-		body.compile(eC, c, eT);
+		body.compile(c, eC, eT);
 		c.emit("pop"); //is this really needed?
 		c.emit("goto L1");
 		
@@ -47,18 +47,10 @@ public class ASTWhile implements ASTNode {
 	}
 	
 	@Override
-	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
-		Type t1 = condition.typeCheck();
-		if (t1 instanceof VBool) {
-			try {
-				return body.typeCheck();
-			}
-			catch (TypeErrorException err) {
-				throw new TypeErrorException();
-			}
+	public Type typeCheck(Environment<Type> e) throws TypeErrorException, UndeclaredIdentifierException, IDDeclaredTwiceException {
+		if (condition.typeCheck(e) instanceof VBool) {
+			throw new TypeErrorException("while requires condition to be of type boolean.");
 		}
-		else {
-			throw new TypeErrorException();
-		}
+		return body.typeCheck(e);
 	}
 }

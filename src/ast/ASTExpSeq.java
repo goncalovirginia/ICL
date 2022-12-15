@@ -28,7 +28,7 @@ public class ASTExpSeq extends ASTPair {
 	}
 	
 	@Override
-	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
+	public Type typeCheck(Environment<Type> e) throws TypeErrorException, IDDeclaredTwiceException, UndeclaredIdentifierException {
 		l.typeCheck(e);
 		return r.typeCheck(e);
 	}

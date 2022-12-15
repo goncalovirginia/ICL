@@ -46,35 +46,24 @@ public class ASTScope implements ASTNode {
 		
 		for (Entry<String, ASTNode> binding : bindings.entrySet()) {
 			c.emit("aload 0");
-			binding.getValue().compile(c, eCurr);
+			binding.getValue().compile(c, eCurr, eT);
 			c.emit("putfield frame" + frame.getId() + "/v" + i + " I");
 			eCurr.assoc(binding.getKey(), new Coordinates(frame.getId(), i));
 			i++;
 		}
 		
-		body.compile(c, eCurr);
+		body.compile(c, eCurr, eT);
 		frame.pop(c);
 	}
 	
 	@Override
-	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
-		//Is a try catch even necessary if the typeCheck already throws its own TypeErrorException?
-		try {
-			for (Entry<String, ASTNode> binding : bindings.entrySet()) {
-				binding.getValue().typeCheck(e);
-			}
-		}
-		catch (TypeErrorException err) {
-			throw new TypeErrorException();
-		}
+	public Type typeCheck(Environment<Type> e) throws TypeErrorException, UndeclaredIdentifierException, IDDeclaredTwiceException {
+		Environment<Type> eTCurr = e.beginScope();
 		
-		Environment<Type> localEnv = e.beginScope();
 		for (Entry<String, ASTNode> binding : bindings.entrySet()) {
-			localEnv.assoc(binding.getKey(), binding.getValue().typeCheck(e));
+			eTCurr.assoc(binding.getKey(), binding.getValue().typeCheck(e));
 		}
 		
-		Type t = body.typeCheck(localEnv);
-		e = localEnv.endScope();
-		return t;
+		return body.typeCheck(eTCurr);
 	}
 }

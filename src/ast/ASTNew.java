@@ -46,7 +46,7 @@ public class ASTNew implements ASTNode {
 	}
 	
 	@Override
-	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
+	public Type typeCheck(Environment<Type> e) throws TypeErrorException, UndeclaredIdentifierException, IDDeclaredTwiceException {
 		t = new TCell(exp.typeCheck(e));
 		return ((TCell) t).getReferenceType();
 	}

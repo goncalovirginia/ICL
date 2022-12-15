@@ -6,6 +6,7 @@ import environment.Environment;
 import exceptions.IDDeclaredTwiceException;
 import exceptions.TypeErrorException;
 import exceptions.UndeclaredIdentifierException;
+import types.TBool;
 import types.Type;
 import types.VBool;
 import types.Value;
@@ -47,23 +48,17 @@ public class ASTIf implements ASTNode {
 	}
 	
 	@Override
-	public Type typeCheck(Environment<Type> e) throws TypeErrorException {
-		Value ifcond = condition.eval(e);
-		if (ifcond instanceof VBool) {
-			try {
-				Type ifB = ifBody.typeCheck(e);
-				Type elseB = elseBody.typeCheck(e);
-				if (ifB != elseB)
-					throw new TypeErrorException();
-				else
-					return elseB;
-			}
-			catch (TypeErrorException err) {
-				throw new TypeErrorException();
-			}
+	public Type typeCheck(Environment<Type> e) throws TypeErrorException, UndeclaredIdentifierException, IDDeclaredTwiceException {
+		if (!(condition.typeCheck(e) instanceof TBool)) {
+			throw new TypeErrorException("if requires condition to be of type boolean.");
 		}
-		throw new TypeErrorException();
 		
+		Type ifBodyT = ifBody.typeCheck(e);
 		
+		if (elseBody != null && !ifBodyT.getClass().equals(elseBody.typeCheck(e).getClass())) {
+			throw new TypeErrorException("if and else body must be of same type.");
+		}
+		
+		return ifBodyT;
 	}
 }
