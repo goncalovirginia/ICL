@@ -27,8 +27,8 @@ public class ASTNew implements ASTNode {
 	}
 	
 	@Override
-	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
-		String refName = ((TCell) t).getReferenceName();
+	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException, TypeErrorException {
+		String refName = ((TCell) t).getReferenceClassName();
 		
 		c.emit("new " + refName);
 		c.emit("dup");

@@ -12,14 +12,8 @@ public class TCell implements Type {
 		return referenceType;
 	}
 	
-	public String getReferenceName() {
-		Type current = referenceType;
-		
-		while (current instanceof TCell) {
-			current = ((TCell) current).getReferenceType();
-		}
-		
-		return current.toString();
+	public String getReferenceClassName() {
+		return referenceType instanceof TCell ? "ref_ref" : "ref_int";
 	}
 	
 	@Override

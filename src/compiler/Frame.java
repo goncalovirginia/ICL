@@ -4,28 +4,35 @@ import java.io.PrintStream;
 
 public class Frame {
 	
-	private final int id;
+	private static int currFrameId = 0;
 	
-	public Frame(int id) {
-		this.id = id;
+	private final int id, numBindings;
+	private final String parent;
+	
+	public Frame(int numBindings) {
+		id = currFrameId++;
+		this.numBindings = numBindings;
+		
+		if (id == 0) {
+			parent = "Ljava/lang/Object;";
+		}
+		else {
+			parent = "Lframe" + (id - 1) + ";";
+		}
 	}
 	
 	public int getId() {
 		return id;
 	}
 	
-	public void generateClass(int numBindings) {
+	public void generateClass() {
 		StringBuilder stringBuilder = new StringBuilder();
+		
 		stringBuilder.append(".class public frame").append(id).append("\n")
 				.append(".super java/lang/Object\n");
 		
-		if (id == 0) {
-			stringBuilder.append(".field public parent Ljava/lang/Object;\n");
-		}
-		else {
-			stringBuilder.append(".field public parent Lframe").append(id - 1).append(";\n");
-		}
-		
+		stringBuilder.append(".field public parent ").append(parent).append("\n");
+
 		for (int i = 0; i < numBindings; i++) {
 			stringBuilder.append(".field public v").append(i).append(" I\n");
 		}
@@ -48,26 +55,13 @@ public class Frame {
 		c.emit("invokespecial frame" + id + "/<init>()V");
 		c.emit("dup");
 		c.emit("aload 0");
-		
-		if (id == 0) {
-			c.emit("putfield frame" + id + "/parent Ljava/lang/Object;");
-		}
-		else {
-			c.emit("putfield frame" + id + "/parent Lframe" + (id - 1) + ";");
-		}
+		c.emit("putfield frame" + id + "/parent " + parent);
 		c.emit("astore 0");
 	}
 	
 	public void pop(CodeBlock c) {
 		c.emit("aload 0");
-		
-		if (id == 0) {
-			c.emit("getfield frame" + id + "/parent Ljava/lang/Object;");
-		}
-		else {
-			c.emit("getfield frame" + id + "/parent Lframe" + (id - 1) + ";");
-		}
-		
+		c.emit("getfield frame" + id + "/parent " + parent);
 		c.emit("astore 0");
 	}
 	

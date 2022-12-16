@@ -29,21 +29,19 @@ public class ASTAssign extends ASTPair {
 	}
 	
 	@Override
-	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
-		String refNameLeft = t1.getReferenceName();
-		String refNameRight = t2.getReferenceName();
+	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException, TypeErrorException {
+		String lReferenceClassName = ((TCell) l.typeCheck(eT)).getReferenceClassName();
 		l.compile(c, eC, eT);
 		r.compile(c, eC, eT);
 		
-		String opcode = "putfield " + refNameLeft + "/v ";
+		String opcode = "putfield " + lReferenceClassName + "/v ";
 		
 		if (refNameRight.equals("bool"))
-			c.emit("putfield " + refNameLeft + "/v Z");
+			c.emit("putfield " + lReferenceClassName + "/v Z");
 		else if (refNameRight.equals("int"))
-			c.emit("putfield " + refNameLeft + "/v I");
+			c.emit("putfield " + lReferenceClassName + "/v I");
 		else
-			c.emit("putfield " + refNameLeft + "/v " + refNameRight + ";");
-		
+			c.emit("putfield " + lReferenceClassName + "/v " + refNameRight + ";");
 	}
 	
 	@Override
@@ -54,7 +52,7 @@ public class ASTAssign extends ASTPair {
 			throw new TypeErrorException("= requires left operand to be of type mutable reference.");
 		}
 		if (!((TCell) lt).getReferenceType().toString().equals(rt.toString())) {
-			throw new TypeErrorException("= requires both operands to be of same type.");
+			throw new TypeErrorException("= requires mutable reference and right operand to be of same type.");
 		}
 		
 		return rt;

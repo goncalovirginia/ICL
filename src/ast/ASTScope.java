@@ -35,11 +35,11 @@ public class ASTScope implements ASTNode {
 	}
 	
 	@Override
-	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
+	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException, TypeErrorException {
 		Environment<Coordinates> eCurr = eC.beginScope();
 		
-		Frame frame = new Frame(eCurr.depth());
-		frame.generateClass(bindings.size());
+		Frame frame = new Frame(bindings.size());
+		frame.generateClass();
 		frame.push(c);
 		
 		int i = 0;
