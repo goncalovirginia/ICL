@@ -49,7 +49,7 @@
 	putfield frame0/v2 Lref_int;
 	L0:
 	aload 0
-	getfield frame0/v1 I
+	getfield frame0/v1 Lref_int;
 	getfield ref_int/v I
 	sipush 0
 	isub
@@ -60,19 +60,19 @@
 	L3: 
 	ifeq L1
 	aload 0
-	getfield frame0/v2 I
+	getfield frame0/v2 Lref_int;
 	aload 0
-	getfield frame0/v2 I
+	getfield frame0/v2 Lref_int;
 	getfield ref_int/v I
 	aload 0
-	getfield frame0/v1 I
+	getfield frame0/v1 Lref_int;
 	getfield ref_int/v I
 	iadd
 	putfield ref_int/v I
 	aload 0
-	getfield frame0/v1 I
+	getfield frame0/v1 Lref_int;
 	aload 0
-	getfield frame0/v1 I
+	getfield frame0/v1 Lref_int;
 	getfield ref_int/v I
 	sipush 1
 	isub
@@ -80,6 +80,9 @@
 	pop
 	goto L0
 	L1:
+	aload 0
+	getfield frame0/v2 Lref_int;
+	getfield ref_int/v I
 	aload 0
 	getfield frame0/parent Ljava/lang/Object;
 	astore 0

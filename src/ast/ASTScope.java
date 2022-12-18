@@ -60,10 +60,9 @@ public class ASTScope implements ASTNode {
 			i++;
 		}
 		
-		frame.generateClass(types);
-		
 		body.compile(c, eCCurr, eTCurr);
 		frame.pop(c);
+		frame.generateClass(types);
 	}
 	
 	@Override
