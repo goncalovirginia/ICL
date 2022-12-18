@@ -63,12 +63,9 @@
 	pop
 	goto L0
 	L1:
-	getstatic java/lang/System/out LJava/io/PrintStream;
 	aload 0
 	getfield frame0/v1 Lref_int;
 	getfield ref_int/v I
-	invokestatic java/lang/String/valueOf(I)Ljava/lang/String;
-	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
 	aload 0
 	getfield frame0/parent Ljava/lang/Object;
 	astore 0
