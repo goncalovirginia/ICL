@@ -2,6 +2,7 @@ package ast;
 
 import compiler.CodeBlock;
 import compiler.Coordinates;
+import compiler.Reference;
 import environment.Environment;
 import exceptions.IDDeclaredTwiceException;
 import exceptions.TypeErrorException;
@@ -31,15 +32,10 @@ public class ASTDeref implements ASTNode {
 	}
 	
 	@Override
-	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
-		String refName = t.getReferenceName();
+	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException, TypeErrorException {
+		Reference reference = new Reference((TCell) n.typeCheck(eT));
 		n.compile(c, eC, eT);
-		if (refName.equals("bool"))
-			c.emit("getfield " + refName + "/v Z");
-		else if (refName.equals("int"))
-			c.emit("getfield " + refName + "/v I");
-		else
-			c.emit("getfield " + refName + "/v " + refName + ";");
+		c.emit("getfield " + reference.className + "/v " + reference.field);
 	}
 	
 	@Override
@@ -50,7 +46,7 @@ public class ASTDeref implements ASTNode {
 			throw new TypeErrorException("~ operation requires type mutable reference.");
 		}
 		
-		return ((TCell) t).getReferenceType();
+		return ((TCell) t).getContentType();
 	}
 	
 }

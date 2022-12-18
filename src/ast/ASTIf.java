@@ -2,6 +2,7 @@ package ast;
 
 import compiler.CodeBlock;
 import compiler.Coordinates;
+import compiler.Label;
 import environment.Environment;
 import exceptions.IDDeclaredTwiceException;
 import exceptions.TypeErrorException;
@@ -33,18 +34,20 @@ public class ASTIf implements ASTNode {
 	}
 	
 	@Override
-	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
+	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException, TypeErrorException {
+		Label falseLabel = new Label(), endLabel = new Label();
+		
 		condition.compile(c, eC, eT);
-		c.emit("ifeq L1");
+		c.emit("ifeq " + falseLabel.id);
 		
 		ifBody.compile(c, eC, eT);
-		c.emit("goto L2");
+		c.emit("goto " + endLabel.id);
 		
-		c.emit("L1:");
+		c.emit(falseLabel.id + ":");
 		if (elseBody != null)
 			elseBody.compile(c, eC, eT);
 		
-		c.emit("L2:");
+		c.emit(endLabel.id + ":");
 	}
 	
 	@Override

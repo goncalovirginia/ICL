@@ -2,6 +2,7 @@ package ast;
 
 import compiler.CodeBlock;
 import compiler.Coordinates;
+import compiler.Label;
 import environment.Environment;
 import exceptions.IDDeclaredTwiceException;
 import exceptions.TypeErrorException;
@@ -33,17 +34,17 @@ public class ASTWhile implements ASTNode {
 	}
 	
 	@Override
-	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
-		c.emit("L1: ");
+	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException, TypeErrorException {
+		Label conditionLabel = new Label(), falseLabel = new Label();
+		c.emit(conditionLabel.id + ":");
 		condition.compile(c, eC, eT);
+		c.emit("ifeq " + falseLabel.id);
 		
-		c.emit("ifeq L2");
 		body.compile(c, eC, eT);
-		c.emit("pop"); //is this really needed?
-		c.emit("goto L1");
+		c.emit("pop");
+		c.emit("goto " + conditionLabel.id);
 		
-		c.emit("L2:");
-		
+		c.emit(falseLabel.id + ":");
 	}
 	
 	@Override

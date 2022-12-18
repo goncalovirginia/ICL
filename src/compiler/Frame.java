@@ -1,40 +1,37 @@
 package compiler;
 
+import types.TCell;
+import types.Type;
+
 import java.io.PrintStream;
+import java.util.List;
 
 public class Frame {
 	
-	private static int currFrameId = 0;
+	private static int frameCounter = 0;
 	
-	private final int id, numBindings;
+	private final int id;
 	private final String parent;
 	
-	public Frame(int numBindings) {
-		id = currFrameId++;
-		this.numBindings = numBindings;
-		
-		if (id == 0) {
-			parent = "Ljava/lang/Object;";
-		}
-		else {
-			parent = "Lframe" + (id - 1) + ";";
-		}
+	public Frame() {
+		id = frameCounter++;
+		parent = id == 0 ? "Ljava/lang/Object;" : "Lframe" + (id - 1) + ";";
 	}
 	
 	public int getId() {
 		return id;
 	}
 	
-	public void generateClass() {
+	public void generateClass(List<Type> types) {
 		StringBuilder stringBuilder = new StringBuilder();
 		
 		stringBuilder.append(".class public frame").append(id).append("\n")
-				.append(".super java/lang/Object\n");
-		
-		stringBuilder.append(".field public parent ").append(parent).append("\n");
+				.append(".super java/lang/Object\n")
+				.append(".field public parent ").append(parent).append("\n");
 
-		for (int i = 0; i < numBindings; i++) {
-			stringBuilder.append(".field public v").append(i).append(" I\n");
+		for (int i = 0; i < types.size(); i++) {
+			String type = types.get(i) instanceof TCell ? "L" + ((TCell) types.get(i)).getClassName() + ";" : types.get(i).toCompilationString();
+			stringBuilder.append(".field public v").append(i).append(" ").append(type).append("\n");
 		}
 		
 		stringBuilder.append(".method public <init>()V\naload 0\ninvokenonvirtual java/lang/Object/<init>()V\nreturn\n.end method\n");

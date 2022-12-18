@@ -11,13 +11,3 @@
 	println ~s
 }
 ;;
-
-{
-	let mut a = 0;
-	let b = new (~a + 1);
-
-	if ~a == 0 { a } else { b } = 2;
-
-	println (~a + ~b)
-}
-;;

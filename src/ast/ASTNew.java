@@ -2,6 +2,7 @@ package ast;
 
 import compiler.CodeBlock;
 import compiler.Coordinates;
+import compiler.Reference;
 import environment.Environment;
 import exceptions.IDDeclaredTwiceException;
 import exceptions.TypeErrorException;
@@ -14,11 +15,9 @@ import types.Value;
 public class ASTNew implements ASTNode {
 	
 	private final ASTNode exp;
-	private Type t;
 	
 	public ASTNew(ASTNode exp) {
 		this.exp = exp;
-		t = null;
 	}
 	
 	@Override
@@ -28,27 +27,19 @@ public class ASTNew implements ASTNode {
 	
 	@Override
 	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException, TypeErrorException {
-		String refName = ((TCell) t).getReferenceClassName();
+		Reference reference = new Reference(new TCell(exp.typeCheck(eT)));
 		
-		c.emit("new " + refName);
+		c.emit("new " + reference.className);
 		c.emit("dup");
-		c.emit("invokespecial " + refName + "/<init>()V");
+		c.emit("invokespecial " + reference.className + "/<init>()V");
 		c.emit("dup");
-		
 		exp.compile(c, eC, eT);
-		
-		if (refName.equals("bool"))
-			c.emit("putfield " + refName + "/v Z");
-		else if (refName.equals("int"))
-			c.emit("putfield " + refName + "/v I");
-		else
-			c.emit("putfield " + refName + "/v " + refName + ";");
+		c.emit("putfield " + reference.className + "/v " + reference.field);
 	}
 	
 	@Override
 	public Type typeCheck(Environment<Type> e) throws TypeErrorException, UndeclaredIdentifierException, IDDeclaredTwiceException {
-		t = new TCell(exp.typeCheck(e));
-		return ((TCell) t).getReferenceType();
+		return new TCell(exp.typeCheck(e));
 	}
 	
 	

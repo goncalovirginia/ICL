@@ -2,23 +2,39 @@ package types;
 
 public class TCell implements Type {
 	
-	private final Type referenceType;
+	private final Type contentType;
 	
-	public TCell(Type referenceType) {
-		this.referenceType = referenceType;
+	public TCell(Type contentType) {
+		this.contentType = contentType;
 	}
 	
-	public Type getReferenceType() {
-		return referenceType;
+	public Type getContentType() {
+		return contentType;
 	}
 	
-	public String getReferenceClassName() {
-		return referenceType instanceof TCell ? "ref_ref" : "ref_int";
+	public String getClassName() {
+		Type currType = contentType;
+		StringBuilder className = new StringBuilder().append("ref_");
+		
+		while (currType instanceof TCell) {
+			currType = ((TCell) currType).contentType;
+			className.append("ref_");
+		}
+		
+		return className.append("int").toString();
 	}
 	
 	@Override
 	public String toString() {
 		return "cell";
+	}
+	
+	@Override
+	public String toCompilationString() {
+		if (!(contentType instanceof TCell)) {
+			return "I";
+		}
+		return "L" + ((TCell) contentType).getClassName() + ";";
 	}
 	
 }

@@ -2,6 +2,7 @@ package ast;
 
 import compiler.CodeBlock;
 import compiler.Coordinates;
+import compiler.Reference;
 import environment.Environment;
 import exceptions.IDDeclaredTwiceException;
 import exceptions.TypeErrorException;
@@ -30,18 +31,11 @@ public class ASTAssign extends ASTPair {
 	
 	@Override
 	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException, TypeErrorException {
-		String lReferenceClassName = ((TCell) l.typeCheck(eT)).getReferenceClassName();
+		Reference reference = new Reference((TCell) l.typeCheck(eT));
+		reference.generateClass();
 		l.compile(c, eC, eT);
 		r.compile(c, eC, eT);
-		
-		String opcode = "putfield " + lReferenceClassName + "/v ";
-		
-		if (refNameRight.equals("bool"))
-			c.emit("putfield " + lReferenceClassName + "/v Z");
-		else if (refNameRight.equals("int"))
-			c.emit("putfield " + lReferenceClassName + "/v I");
-		else
-			c.emit("putfield " + lReferenceClassName + "/v " + refNameRight + ";");
+		c.emit("putfield " + reference.className + "/v " + reference.field);
 	}
 	
 	@Override
@@ -51,7 +45,7 @@ public class ASTAssign extends ASTPair {
 		if (!(lt instanceof TCell)) {
 			throw new TypeErrorException("= requires left operand to be of type mutable reference.");
 		}
-		if (!((TCell) lt).getReferenceType().toString().equals(rt.toString())) {
+		if (!((TCell) lt).getContentType().toString().equals(rt.toString())) {
 			throw new TypeErrorException("= requires mutable reference and right operand to be of same type.");
 		}
 		

@@ -5,7 +5,7 @@ package parser;
 import ast.*;
 import ast.integer.*;
 import ast.bool.*;
-import java.util.Map;
+import java.util.LinkedHashMap;import java.util.Map;
 import java.util.HashMap;
 
 public class Parser0 {
@@ -265,7 +265,7 @@ ASTNode Scope() :
 {
     Token id, m = null, n = null;
 	ASTNode val, body = null;
-	Map<String, ASTNode> bindings = new HashMap<>();
+	Map<String, ASTNode> bindings = new LinkedHashMap<>();
 }
 {
 	(

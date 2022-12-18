@@ -7,4 +7,9 @@ public class TBool implements Type {
 		return "bool";
 	}
 	
+	@Override
+	public String toCompilationString() {
+		return "I";
+	}
+	
 }

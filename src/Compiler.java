@@ -3,6 +3,7 @@ import compiler.CodeBlock;
 import environment.Environment;
 import parser.Parser0;
 import types.Type;
+import types.Value;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -19,12 +20,10 @@ public class Compiler {
 		try {
 			new Parser0(new FileInputStream(args[0]));
 			ASTNode ast = Parser0.Start();
-			CodeBlock codeBlock = new CodeBlock();
-			Environment<Type> tE = new Environment<>();
-			ast.typeCheck(tE);
-			ast.eval(new Environment<>());
-			ast.compile(codeBlock, new Environment<>(), tE);
-			compileJasmin(args[1], codeBlock.dump());
+			CodeBlock c = new CodeBlock();
+			ast.typeCheck(new Environment<>());
+			ast.compile(c, new Environment<>(), new Environment<>());
+			compileJasmin(args[1], c.dump());
 			System.out.println("Compiled successfully.");
 		}
 		catch (Exception e) {

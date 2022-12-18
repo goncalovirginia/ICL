@@ -7,4 +7,9 @@ public class TInt implements Type {
 		return "int";
 	}
 	
+	@Override
+	public String toCompilationString() {
+		return "I";
+	}
+	
 }

@@ -7,9 +7,12 @@ import environment.Environment;
 import exceptions.IDDeclaredTwiceException;
 import exceptions.TypeErrorException;
 import exceptions.UndeclaredIdentifierException;
+import types.TCell;
 import types.Type;
 import types.Value;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -36,23 +39,30 @@ public class ASTScope implements ASTNode {
 	
 	@Override
 	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException, TypeErrorException {
-		Environment<Coordinates> eCurr = eC.beginScope();
+		Environment<Coordinates> eCCurr = eC.beginScope();
+		Environment<Type> eTCurr = eT.beginScope();
 		
-		Frame frame = new Frame(bindings.size());
-		frame.generateClass();
+		Frame frame = new Frame();
 		frame.push(c);
 		
 		int i = 0;
+		List<Type> types = new LinkedList<>();
 		
 		for (Entry<String, ASTNode> binding : bindings.entrySet()) {
 			c.emit("aload 0");
-			binding.getValue().compile(c, eCurr, eT);
-			c.emit("putfield frame" + frame.getId() + "/v" + i + " I");
-			eCurr.assoc(binding.getKey(), new Coordinates(frame.getId(), i));
+			binding.getValue().compile(c, eCCurr, eTCurr);
+			eCCurr.assoc(binding.getKey(), new Coordinates(frame.getId(), i));
+			Type type = binding.getValue().typeCheck(eTCurr);
+			types.add(type);
+			eTCurr.assoc(binding.getKey(), type);
+			String typeJ = type instanceof TCell ? "L" + ((TCell) type).getClassName() + ";" : type.toCompilationString();
+			c.emit("putfield frame" + frame.getId() + "/v" + i + " " + typeJ);
 			i++;
 		}
 		
-		body.compile(c, eCurr, eT);
+		frame.generateClass(types);
+		
+		body.compile(c, eCCurr, eTCurr);
 		frame.pop(c);
 	}
 	
@@ -61,9 +71,10 @@ public class ASTScope implements ASTNode {
 		Environment<Type> eTCurr = e.beginScope();
 		
 		for (Entry<String, ASTNode> binding : bindings.entrySet()) {
-			eTCurr.assoc(binding.getKey(), binding.getValue().typeCheck(e));
+			eTCurr.assoc(binding.getKey(), binding.getValue().typeCheck(eTCurr));
 		}
 		
 		return body.typeCheck(eTCurr);
 	}
+	
 }

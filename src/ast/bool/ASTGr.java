@@ -4,6 +4,7 @@ import ast.ASTNode;
 import ast.integer.ASTIntPair;
 import compiler.CodeBlock;
 import compiler.Coordinates;
+import compiler.Label;
 import environment.Environment;
 import exceptions.IDDeclaredTwiceException;
 import exceptions.TypeErrorException;
@@ -31,16 +32,17 @@ public class ASTGr extends ASTIntPair {
 	}
 	
 	@Override
-	public void compile(CodeBlock c, Environment<Coordinates> e, Environment<Type> tE) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
+	public void compile(CodeBlock c, Environment<Coordinates> e, Environment<Type> tE) throws IDDeclaredTwiceException, UndeclaredIdentifierException, TypeErrorException {
+		Label trueLabel = new Label(), endLabel = new Label();
 		
 		l.compile(c, e, tE);
 		r.compile(c, e, tE);
 		
 		c.emit("isub");
-		c.emit("ifgt L1");
+		c.emit("ifgt " + trueLabel.id);
 		c.emit("sipush 0");
-		c.emit("goto L2");
-		c.emit("L1: sipush 1");
-		c.emit("L2: ");
+		c.emit("goto " + endLabel.id);
+		c.emit(trueLabel.id + ": sipush 1");
+		c.emit(endLabel.id + ": ");
 	}
 }

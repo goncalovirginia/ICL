@@ -29,9 +29,10 @@ public class ASTAnd extends ASTBoolPair {
 	}
 	
 	@Override
-	public void compile(CodeBlock c, Environment<Coordinates> e, Environment<Type> tE) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
+	public void compile(CodeBlock c, Environment<Coordinates> e, Environment<Type> tE) throws IDDeclaredTwiceException, UndeclaredIdentifierException, TypeErrorException {
 		l.compile(c, e, tE);
 		r.compile(c, e, tE);
 		c.emit("iand");
 	}
+	
 }

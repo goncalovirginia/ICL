@@ -43,7 +43,7 @@ public class Environment<V> {
 			V value = assocs.get(id);
 			return value != null ? value : parent.find(id);
 		}
-		catch (Exception e) {
+		catch (NullPointerException e) {
 			throw new UndeclaredIdentifierException(id);
 		}
 	}

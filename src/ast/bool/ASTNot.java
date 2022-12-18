@@ -32,14 +32,14 @@ public class ASTNot implements ASTNode {
 	}
 	
 	@Override
-	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException {
+	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException, TypeErrorException {
 		n.compile(c, eC, eT);
 		c.emit("sipush 1");
 		c.emit("ixor");
 	}
 	
 	@Override
-	public Type typeCheck(Environment<Type> e) throws TypeErrorException, UndeclaredIdentifierException {
+	public Type typeCheck(Environment<Type> e) throws TypeErrorException, UndeclaredIdentifierException, IDDeclaredTwiceException {
 		Type t = n.typeCheck(e);
 		
 		if (!(t instanceof TBool)) {
