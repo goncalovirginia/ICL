@@ -39,14 +39,6 @@
 	getfield frame0/v0 I
 	putfield ref_int/v I
 	putfield frame0/v1 Lref_int;
-	aload 0
-	new ref_int
-	dup
-	invokespecial ref_int/<init>()V
-	dup
-	sipush 0
-	putfield ref_int/v I
-	putfield frame0/v2 Lref_int;
 	L0:
 	aload 0
 	getfield frame0/v1 Lref_int;
@@ -56,19 +48,10 @@
 	ifgt L2
 	sipush 0
 	goto L3
-	L2: sipush 1
+	L2:
+	sipush 1
 	L3: 
 	ifeq L1
-	aload 0
-	getfield frame0/v2 Lref_int;
-	aload 0
-	getfield frame0/v2 Lref_int;
-	getfield ref_int/v I
-	aload 0
-	getfield frame0/v1 Lref_int;
-	getfield ref_int/v I
-	iadd
-	putfield ref_int/v I
 	aload 0
 	getfield frame0/v1 Lref_int;
 	aload 0
@@ -82,7 +65,7 @@
 	L1:
 	getstatic java/lang/System/out LJava/io/PrintStream;
 	aload 0
-	getfield frame0/v2 Lref_int;
+	getfield frame0/v1 Lref_int;
 	getfield ref_int/v I
 	invokestatic java/lang/String/valueOf(I)Ljava/lang/String;
 	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
@@ -93,7 +76,7 @@
 	; convert to String;
 	invokestatic java/lang/String/valueOf(I)Ljava/lang/String;
 
-	; call println<
+	; call println
 	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
 
 	return

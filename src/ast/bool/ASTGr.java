@@ -42,7 +42,8 @@ public class ASTGr extends ASTIntPair {
 		c.emit("ifgt " + trueLabel.id);
 		c.emit("sipush 0");
 		c.emit("goto " + endLabel.id);
-		c.emit(trueLabel.id + ": sipush 1");
+		c.emit(trueLabel.id + ":");
+		c.emit("sipush 1");
 		c.emit(endLabel.id + ": ");
 	}
 }
