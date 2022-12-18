@@ -1,0 +1,11 @@
+{
+	let mut a = 0;
+	let b = new a;
+	let mut c = a;
+	let mut d = 1;
+
+	if ~a == 0 { b } else { c } = d;
+
+	println ~~b
+}
+;;
