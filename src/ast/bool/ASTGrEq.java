@@ -42,7 +42,8 @@ public class ASTGrEq extends ASTIntPair {
 		c.emit("ifge " + trueLabel.id);
 		c.emit("sipush 0");
 		c.emit("goto " + endLabel.id);
-		c.emit(trueLabel.id + ": sipush 1");
+		c.emit(trueLabel.id + ":");
+		c.emit("sipush 1");
 		c.emit(endLabel.id + ": ");
 	}
 }
