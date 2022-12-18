@@ -41,7 +41,7 @@ public class ASTWhile implements ASTNode {
 		c.emit("ifeq " + falseLabel.id);
 		
 		body.compile(c, eC, eT);
-		c.emit("pop");
+		//c.emit("pop");
 		c.emit("goto " + conditionLabel.id);
 		
 		c.emit(falseLabel.id + ":");
