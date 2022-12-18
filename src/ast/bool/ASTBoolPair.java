@@ -7,6 +7,7 @@ import exceptions.IDDeclaredTwiceException;
 import exceptions.TypeErrorException;
 import exceptions.UndeclaredIdentifierException;
 import types.TBool;
+import types.TInt;
 import types.Type;
 
 public abstract class ASTBoolPair extends ASTPair {
