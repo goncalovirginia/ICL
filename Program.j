@@ -80,9 +80,12 @@
 	pop
 	goto L0
 	L1:
+	getstatic java/lang/System/out LJava/io/PrintStream;
 	aload 0
 	getfield frame0/v2 Lref_int;
 	getfield ref_int/v I
+	invokestatic java/lang/String/valueOf(I)Ljava/lang/String;
+	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
 	aload 0
 	getfield frame0/parent Ljava/lang/Object;
 	astore 0
@@ -90,7 +93,7 @@
 	; convert to String;
 	invokestatic java/lang/String/valueOf(I)Ljava/lang/String;
 
-	; call println
+	; call println<
 	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
 
 	return

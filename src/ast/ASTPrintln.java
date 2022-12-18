@@ -26,7 +26,10 @@ public class ASTPrintln implements ASTNode {
 	
 	@Override
 	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException, TypeErrorException {
+		c.emit("getstatic java/lang/System/out LJava/io/PrintStream;");
 		n.compile(c, eC, eT);
+		c.emit("invokestatic java/lang/String/valueOf(I)Ljava/lang/String;");
+		c.emit("invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V");
 	}
 	
 	@Override
