@@ -9,7 +9,7 @@ public class Reference {
 	public final String className, field;
 	
 	public Reference(TCell cell) {
-		this.className = cell.getClassName();;
+		this.className = cell.getClassName();
 		this.field = cell.toCompilationString();
 	}
 	

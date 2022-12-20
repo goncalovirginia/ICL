@@ -28,7 +28,7 @@ public class Frame {
 		stringBuilder.append(".class public frame").append(id).append("\n")
 				.append(".super java/lang/Object\n")
 				.append(".field public parent ").append(parent).append("\n");
-
+		
 		for (int i = 0; i < types.size(); i++) {
 			String type = types.get(i) instanceof TCell ? "L" + ((TCell) types.get(i)).getClassName() + ";" : types.get(i).toCompilationString();
 			stringBuilder.append(".field public v").append(i).append(" ").append(type).append("\n");

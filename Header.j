@@ -14,19 +14,7 @@
 	.limit locals  1
 	.limit stack 256
 
-	; setup local variables:
-
-	; 1 - the PrintStream object held in java.lang.System.out
-
-	getstatic java/lang/System/out Ljava/io/PrintStream;
-
 	; START
-
-	; convert to String;
-	; invokestatic java/lang/String/valueOf(I)Ljava/lang/String;
-
-	; call println
-	; invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
 
 	return
 

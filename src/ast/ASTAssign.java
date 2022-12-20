@@ -45,7 +45,7 @@ public class ASTAssign extends ASTPair {
 		if (!(lt instanceof TCell)) {
 			throw new TypeErrorException("= requires left operand to be of type mutable reference.");
 		}
-		if (!((TCell) lt).getContentType().toString().equals(rt.toString())) {
+		if (!((TCell) lt).getContentType().getClass().equals(rt.getClass())) {
 			throw new TypeErrorException("= requires mutable reference and right operand to be of same type.");
 		}
 		

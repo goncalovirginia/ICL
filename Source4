@@ -1,0 +1,9 @@
+{
+	let mut i = 0;
+
+	while (100 > ~i) {
+		println ~i;
+		i = ~i + 1
+	}
+}
+;;

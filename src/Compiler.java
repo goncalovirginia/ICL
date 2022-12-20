@@ -2,8 +2,6 @@ import ast.ASTNode;
 import compiler.CodeBlock;
 import environment.Environment;
 import parser.Parser0;
-import types.Type;
-import types.Value;
 
 import java.io.FileInputStream;
 import java.io.IOException;

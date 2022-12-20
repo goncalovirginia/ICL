@@ -32,7 +32,7 @@ public class TCell implements Type {
 	@Override
 	public String toCompilationString() {
 		if (!(contentType instanceof TCell)) {
-			return "I";
+			return contentType.toCompilationString();
 		}
 		return "L" + ((TCell) contentType).getClassName() + ";";
 	}
