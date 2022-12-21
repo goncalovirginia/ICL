@@ -11,6 +11,7 @@ import types.TCell;
 import types.Type;
 import types.Value;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -45,19 +46,16 @@ public class ASTScope implements ASTNode {
 		Frame frame = new Frame();
 		frame.push(c);
 		
-		int i = 0;
 		List<Type> types = new LinkedList<>();
 		
 		for (Entry<String, ASTNode> binding : bindings.entrySet()) {
 			c.emit("aload 0");
 			binding.getValue().compile(c, eCCurr, eTCurr);
-			eCCurr.assoc(binding.getKey(), new Coordinates(frame.getId(), i));
+			eCCurr.assoc(binding.getKey(), new Coordinates(frame.getId(), types.size()));
 			Type type = binding.getValue().typeCheck(eTCurr);
+			c.emit("putfield frame" + frame.getId() + "/v" + types.size() + " " + type.toCompilationString());
 			types.add(type);
 			eTCurr.assoc(binding.getKey(), type);
-			String typeJ = type instanceof TCell ? "L" + ((TCell) type).getClassName() + ";" : type.toCompilationString();
-			c.emit("putfield frame" + frame.getId() + "/v" + i + " " + typeJ);
-			i++;
 		}
 		
 		body.compile(c, eCCurr, eTCurr);

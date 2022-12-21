@@ -25,7 +25,6 @@ public class ASTId implements ASTNode {
 	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws UndeclaredIdentifierException {
 		Coordinates coordinates = eC.find(id);
 		Type type = eT.find(id);
-		String typeJ = type instanceof TCell ? "L" + ((TCell) type).getClassName() + ";" : type.toCompilationString();
 		
 		c.emit("aload 0");
 		
@@ -33,7 +32,7 @@ public class ASTId implements ASTNode {
 			c.emit("getfield frame" + i + "/parent Lframe" + (i - 1) + ";");
 		}
 		
-		c.emit("getfield frame" + coordinates.frame() + "/v" + coordinates.slot() + " " + typeJ);
+		c.emit("getfield frame" + coordinates.frame() + "/v" + coordinates.slot() + " " + type.toCompilationString());
 	}
 	
 	@Override

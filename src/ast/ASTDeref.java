@@ -33,7 +33,7 @@ public class ASTDeref implements ASTNode {
 	
 	@Override
 	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException, TypeErrorException {
-		Reference reference = new Reference((TCell) n.typeCheck(eT));
+		Reference reference = new Reference(n.typeCheck(eT));
 		n.compile(c, eC, eT);
 		c.emit("getfield " + reference.className + "/v " + reference.field);
 	}

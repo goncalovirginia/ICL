@@ -31,7 +31,7 @@ public class ASTAssign extends ASTPair {
 	
 	@Override
 	public void compile(CodeBlock c, Environment<Coordinates> eC, Environment<Type> eT) throws IDDeclaredTwiceException, UndeclaredIdentifierException, TypeErrorException {
-		Reference reference = new Reference((TCell) l.typeCheck(eT));
+		Reference reference = new Reference(l.typeCheck(eT));
 		reference.generateClass();
 		l.compile(c, eC, eT);
 		r.compile(c, eC, eT);

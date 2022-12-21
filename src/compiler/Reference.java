@@ -1,6 +1,7 @@
 package compiler;
 
 import types.TCell;
+import types.Type;
 
 import java.io.PrintStream;
 
@@ -8,9 +9,9 @@ public class Reference {
 	
 	public final String className, field;
 	
-	public Reference(TCell cell) {
-		this.className = cell.getClassName();
-		this.field = cell.toCompilationString();
+	public Reference(Type cell) {
+		this.className = ((TCell) cell).getClassName();
+		this.field = ((TCell) cell).getContentType().toCompilationString();
 	}
 	
 	public void generateClass() {
