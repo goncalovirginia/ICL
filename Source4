@@ -4,6 +4,13 @@
 	while (100 > ~i) {
 		println ~i;
 		i = ~i + 1
+	};
+
+	if (~i == 999) {
+		println true
+	}
+	else {
+		println false
 	}
 }
 ;;
