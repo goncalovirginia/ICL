@@ -32,7 +32,8 @@ public class Compiler {
 	private static void compileJasmin(String target, String code) throws IOException {
 		String jasminCode = new String(new FileInputStream("Header.j").readAllBytes()).replaceFirst("Header", target).replaceFirst("\t; START\n", code);
 		new PrintStream(target + ".j").print(jasminCode);
-		new ProcessBuilder("java", "-jar", ".\\jasmin-2.4\\jasmin.jar", target + ".j").start();
+		new ProcessBuilder("java", "-jar", "Jasmin", target + ".j").start();
+		//new ProcessBuilder("java", "-jar", ".\\jasmin-2.4\\jasmin.jar", target + ".j").start();
 	}
 	
 }
