@@ -5,8 +5,10 @@ package parser;
 import ast.*;
 import ast.integer.*;
 import ast.bool.*;
-import java.util.LinkedHashMap;import java.util.Map;
-import java.util.HashMap;
+import java.util.Map;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.LinkedList;
 
 public class Parser0 {
 
@@ -27,6 +29,8 @@ SKIP :
 
 TOKEN :
 {
+	< FN : "fn" >
+	|
 	< DEREF : "~" >
 	|
 	< MUT : "mut" >
@@ -84,6 +88,12 @@ TOKEN :
 	< LCBRA : "{" >
 	|
 	< RCBRA : "}" >
+	|
+    < COMMA : "," >
+    |
+    < COLON : ":" >
+    |
+    < ARROW : "->" >
 }
 
 ASTNode Start() :
@@ -208,6 +218,12 @@ ASTNode Fact() :
 }
 {
 	(
+	<FN> t = Function()
+	|
+	<WHILE> t = While()
+    |
+    <IF> t = If()
+    |
 	<DEREF>
 	{
 		t = new ASTDeref(Fact());
@@ -251,10 +267,6 @@ ASTNode Fact() :
 	}
 	|
 	<LCBRA> t = Scope() <RCBRA>
-	|
-	<WHILE> t = While()
-	|
-	<IF> t = If()
 	)
 	{
 		return t;
@@ -307,3 +319,60 @@ ASTNode If() :
         return new ASTIf(condition, ifBody, elseBody);
     }
 }
+
+ASTNode Function() :
+{
+    Token id, type = null;
+    List<String> params = new LinkedList<>(), types = new LinkedList<>();
+	ASTNode body;
+}
+{
+	<LPAR>
+	(
+	id = <ID> ( <COLON> type = <ID> ) ?
+	{
+		params.add(id.image);
+		if (type != null) types.add(type.image);
+		type = null;
+	}
+		(
+		<COMMA> id = <ID> ( <COLON> type = <ID> ) ?
+		{
+			params.add(id.image);
+			if (type != null) types.add(type.image);
+            type = null;
+		}
+		) *
+	) ?
+	<RPAR>
+	( <ARROW> type = <ID> ) ?
+	<LCBRA> body = Start() <RCBRA>
+	{
+		if (type != null) types.add(type.image);
+        return new ASTFunction(params, types, body);
+    }
+}
+
+ASTNode FunctionCall(Token id) :
+{
+	List<ASTNode> args = new LinkedList<>();
+	ASTNode arg;
+}
+{
+    (
+    arg = BoolAdd()
+    {
+    	args.add(arg);
+    }
+    	(
+    	arg = BoolAdd()
+    	{
+    		args.add(arg);
+    	}
+    	) *
+    ) ?
+	{
+        return new ASTFunctionCall(id.image, args);
+    }
+}
+

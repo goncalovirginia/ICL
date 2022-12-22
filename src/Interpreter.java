@@ -9,7 +9,7 @@ public class Interpreter {
 		while (true) {
 			try {
 				System.out.print("> ");
-				System.out.println(Parser0.Start().eval(new Environment<>()));
+				Parser0.Start().eval(new Environment<>());
 			}
 			catch (Exception e) {
 				e.printStackTrace();
