@@ -37,11 +37,11 @@ false
 ### Compiling and Executing
 
 #### Interpreter
-- `javac Interpreter.java` (From inside the *src* directory)
-- `java -classpath src Interpreter`
+- ...\ICL\src> `javac Interpreter.java`
+- ...\ICL> `java -classpath src Interpreter`
 
 #### Compiler
-- `javac Compiler.java` (From inside the *src* directory)
-- `java -classpath src Compiler <source file name> <output file name>`
+- ...\ICL\src> `javac Compiler.java`
+- ...\ICL> `java -classpath src Compiler <source file name> <output file name>`
     - Example: `java -classpath src Compiler Source4 Program4`
-- `java Program4`
+- ...\ICL> `java Program4`
